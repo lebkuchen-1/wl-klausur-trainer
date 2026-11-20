@@ -1,0 +1,2704 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WL Klausur-Sprint (Aufgaben 1–10) · 26HIA1</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --surface-2: #eef2f9;
+    --border: #dce3f0;
+    --text: #162033;
+    --text-muted: #58657e;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-soft: #e0ecff;
+    --success: #15803d;
+    --success-soft: #dcfce7;
+    --warn: #b45309;
+    --warn-soft: #fef3c7;
+    --danger: #b91c1c;
+    --danger-soft: #fee2e2;
+    --purple: #6d28d9;
+    --purple-soft: #ede9fe;
+    --shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+    --radius: 14px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0e1420;
+    --surface: #172033;
+    --surface-2: #1f2b44;
+    --border: #2c3b59;
+    --text: #eef3fc;
+    --text-muted: #9eb0cf;
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --primary-soft: rgba(96, 165, 250, 0.16);
+    --success: #4ade80;
+    --success-soft: rgba(74, 222, 128, 0.15);
+    --warn: #fbbf24;
+    --warn-soft: rgba(251, 191, 36, 0.16);
+    --danger: #f87171;
+    --danger-soft: rgba(248, 113, 113, 0.16);
+    --purple: #c4b5fd;
+    --purple-soft: rgba(196, 181, 253, 0.16);
+    --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  /* Header & Timer Bar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .topbar-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 12px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-badge {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    border-radius: 8px;
+    letter-spacing: 0.03em;
+  }
+  .brand h1 {
+    font-size: 1.05rem;
+    margin: 0;
+    font-weight: 750;
+  }
+  .brand small {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+  .timer-display {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    font-size: 1.05rem;
+    min-width: 54px;
+    text-align: center;
+  }
+  .timer-phase {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    max-width: 185px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .icon-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+  .progress-strip {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 18px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), #10b981);
+    transition: width 0.35s ease;
+  }
+
+  /* Navigation Tabs */
+  .nav-wrap {
+    max-width: 1120px;
+    margin: 16px auto 0;
+    padding: 0 18px;
+  }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: var(--surface);
+    padding: 8px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .tab-btn {
+    flex: 1 1 150px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { background: var(--surface-2); color: var(--text); }
+  .tab-btn.active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+  }
+  .tab-pill {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.22);
+  }
+  .tab-btn:not(.active) .tab-pill {
+    background: var(--surface-2);
+    color: var(--text-muted);
+  }
+
+  /* Main Container */
+  main {
+    max-width: 1120px;
+    margin: 18px auto 64px;
+    padding: 0 18px;
+  }
+  .view { display: none; }
+  .view.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* Cards & Common Elements */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .card h2 { margin: 0; font-size: 1.15rem; }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .badge-note { background: var(--primary-soft); color: var(--primary); }
+  .badge-gap { background: var(--warn-soft); color: var(--warn); }
+  .badge-ok { background: var(--success-soft); color: var(--success); }
+  .badge-danger { background: var(--danger-soft); color: var(--danger); }
+  .badge-purple { background: var(--purple-soft); color: var(--purple); }
+
+  .btn {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-warn { background: var(--warn); color: #fff; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-sm { padding: 6px 11px; font-size: 0.8rem; border-radius: 8px; }
+
+  /* Sprint Banner */
+  .sprint-plan {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .sprint-step {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .sprint-step:hover { border-color: var(--primary); transform: translateY(-1px); }
+  .sprint-step strong { display: block; font-size: 0.86rem; }
+  .sprint-step span { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* Study Guide & Cloze Blur */
+  .controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .filter-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .kw {
+    font-weight: 750;
+    background: var(--primary-soft);
+    color: var(--primary);
+    padding: 1px 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+  }
+  .blur-mode .kw:not(.revealed) {
+    color: transparent;
+    background: var(--border);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  .blur-mode .kw:not(.revealed):hover {
+    background: var(--primary-soft);
+  }
+
+  .gap-box {
+    border-left: 4px solid var(--warn);
+    background: var(--warn-soft);
+    padding: 12px 14px;
+    border-radius: 0 10px 10px 0;
+    margin: 10px 0;
+  }
+  .gap-box h4 { margin: 0 0 6px; font-size: 0.92rem; color: var(--warn); }
+
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+    margin: 10px 0;
+  }
+  .formula-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+  table.compare th, table.compare td {
+    border: 1px solid var(--border);
+    padding: 9px 11px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.compare th { background: var(--surface-2); font-weight: 750; }
+
+  /* Flashcards (Typing) */
+  .fc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .fc-question {
+    font-size: 1.2rem;
+    font-weight: 750;
+    margin: 8px 0 14px;
+    line-height: 1.4;
+  }
+  .fc-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  textarea.answer-input, input.cloze-input {
+    width: 100%;
+    font-family: var(--font);
+    font-size: 0.98rem;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.15s;
+  }
+  textarea.answer-input:focus, input.cloze-input:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .cloze-inline {
+    display: inline-block;
+    width: 185px;
+    padding: 4px 8px;
+    margin: 2px 4px;
+    font-size: 0.92rem;
+    border-radius: 7px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+  }
+  .cloze-inline.ok { border-color: var(--success); background: var(--success-soft); }
+  .cloze-inline.bad { border-color: var(--danger); background: var(--danger-soft); }
+
+  .kw-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .chip {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 999px;
+  }
+  .chip-hit { background: var(--success-soft); color: var(--success); }
+  .chip-miss { background: var(--danger-soft); color: var(--danger); }
+
+  .solution-box {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .rating-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .rating-bar .btn { flex: 1 1 140px; justify-content: center; }
+
+  /* Quiz */
+  .quiz-options {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .quiz-opt {
+    text-align: left;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 13px 16px;
+    border-radius: 11px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: all 0.15s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-soft); }
+  .quiz-opt.correct { border-color: var(--success); background: var(--success-soft); color: var(--text); }
+  .quiz-opt.wrong { border-color: var(--danger); background: var(--danger-soft); color: var(--text); }
+  .quiz-letter {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.82rem;
+  }
+  .feedback-box {
+    padding: 13px 15px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 0.92rem;
+  }
+  .feedback-box.ok { background: var(--success-soft); border: 1px solid var(--success); }
+  .feedback-box.bad { background: var(--danger-soft); border: 1px solid var(--danger); }
+
+  /* Interactive Visuals: Maslow & Kreislauf */
+  .maslow-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    margin: 14px 0;
+  }
+  .maslow-tier {
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.88rem;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .maslow-select {
+    width: 100%;
+    margin-top: 6px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .kreislauf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 14px;
+  }
+  .flow-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px;
+  }
+  .flow-arrow-g { color: #0284c7; font-weight: 800; }
+  .flow-arrow-m { color: #d97706; font-weight: 800; }
+
+  .sort-item-box {
+    font-size: 1.08rem;
+    font-weight: 750;
+    padding: 18px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    text-align: center;
+    margin: 14px 0;
+  }
+  .sort-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .sort-btns .btn { flex: 1 1 160px; justify-content: center; padding: 13px; }
+
+  /* Exam Mode */
+  .exam-task {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    background: var(--surface);
+  }
+  .exam-task-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 750;
+  }
+  .score-banner {
+    background: linear-gradient(135deg, var(--primary), #4f46e5);
+    color: #fff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .score-big { font-size: 1.8rem; font-weight: 850; }
+
+  /* Diagram SVG */
+  .svg-box {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 10px 0;
+  }
+  .svg-detail {
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  .muted { color: var(--text-muted); font-size: 0.86rem; }
+  ul.clean { margin: 6px 0; padding-left: 20px; }
+  ul.clean li { margin-bottom: 4px; }
+  .kbd {
+    font-size: 0.74rem;
+    padding: 2px 6px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    font-family: monospace;
+  }
+
+  @media (max-width: 640px) {
+    .timer-phase { display: none; }
+    .fc-question { font-size: 1.05rem; }
+    .cloze-inline { width: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-badge">26HIA1 · WL</div>
+      <div>
+        <h1>Klausur-Sprint: Einführung in die Wirtschaftslehre</h1>
+        <small>Aufgaben 1–10 · Mitschrift + ergänzte Lücken</small>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <div class="timer-box" title="30-Minuten-Lern-Timer">
+        <span>⏱</span>
+        <span class="timer-display" id="timerDisplay">30:00</span>
+        <span class="timer-phase" id="timerPhase">Bereit zum Start</span>
+        <button class="icon-btn" id="timerToggleBtn" onclick="toggleTimer()">Start</button>
+        <button class="icon-btn" onclick="resetTimer()" title="Timer zurücksetzen">↺</button>
+      </div>
+      <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Hell/Dunkel wechseln">🌙</button>
+    </div>
+  </div>
+  <div class="progress-strip">
+    <span id="masteryLabel">Lernfortschritt: 0%</span>
+    <div class="progress-track"><div class="progress-fill" id="masteryBar"></div></div>
+    <button class="icon-btn" style="padding:3px 8px; font-size:0.74rem;" onclick="resetAllProgress()">Fortschritt zurücksetzen</button>
+  </div>
+</header>
+
+<div class="nav-wrap">
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="guide" onclick="switchTab('guide')">
+      📖 1. Spickzettel &amp; Lücken <span class="tab-pill">5 Min</span>
+    </button>
+    <button class="tab-btn" data-tab="cards" onclick="switchTab('cards')">
+      ⌨️ 2. Karteikarten (Eintippen) <span class="tab-pill" id="cardsPill">0/26</span>
+    </button>
+    <button class="tab-btn" data-tab="quiz" onclick="switchTab('quiz')">
+      ⚡ 3. Quiz &amp; Fallen <span class="tab-pill" id="quizPill">0/24</span>
+    </button>
+    <button class="tab-btn" data-tab="visual" onclick="switchTab('visual')">
+      🧩 4. Pyramide &amp; Kreislauf <span class="tab-pill">Aktiv</span>
+    </button>
+    <button class="tab-btn" data-tab="exam" onclick="switchTab('exam')">
+      📝 5. Probe-Klausur (A1–10) <span class="tab-pill">Test</span>
+    </button>
+  </nav>
+</div>
+
+<main>
+  <!-- ==================== TAB 1: SPICKZETTEL & LÜCKEN ==================== -->
+  <section id="view-guide" class="view active">
+    <div class="card">
+      <div class="card-header">
+        <h2>🚀 Dein 30-Minuten-Schlachtplan für heute</h2>
+        <span class="badge badge-gap">⚠️ 6 Lücken in der Mitschrift ergänzt!</span>
+      </div>
+      <p class="muted" style="margin:0;">
+        In der Mitschrift fehlten <strong>Aufgabe 4 (Haushalte &amp; Staat)</strong>, <strong>Aufgabe 5 (Minimal-/Maximalprinzip)</strong>, <strong>Aufgabe 6 (BWL vs. VWL)</strong>, <strong>Aufgabe 8 (5 Maslow-Stufen)</strong> sowie <strong>Aufgabe 10b &amp; 10c (Ströme mit dem Staat)</strong>. Alles ist unten gelb markiert und direkt in allen Übungen eingebaut!
+      </p>
+      <div class="sprint-plan">
+        <div class="sprint-step" onclick="switchTab('guide'); toggleBlurMode(true);">
+          <strong>Min 0–5 · Lücken schließen</strong>
+          <span>Gelbe Boxen lesen &amp; „Abdeck-Modus“ testen</span>
+        </div>
+        <div class="sprint-step" onclick="switchTab('cards')">
+          <strong>Min 5–15 · Aktiv eintippen</strong>
+          <span>Karteikarten + Lückentext (Active Recall!)</span>
+        </div>
+        <div class="sprint-step" onclick="switchTab('quiz')">
+          <strong>Min 15–22 · Quiz &amp; Zuordnung</strong>
+          <span>Klausurfallen + Pyramide + Kreislauf</span>
+        </div>
+        <div class="sprint-step" onclick="switchTab('exam')">
+          <strong>Min 22–30 · Probe-Klausur</strong>
+          <span>Aufgaben 1–10 aus dem Kopf schreiben</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="filter-pills">
+        <button class="pill active" onclick="filterGuide('all', this)">Alle (A1–A10)</button>
+        <button class="pill" onclick="filterGuide('gap', this)">⚠️ Nur ergänzte Lücken</button>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-secondary btn-sm" id="blurToggleBtn" onclick="toggleBlurMode()">🙈 Abdeck-Modus: AUS</button>
+        <button class="btn btn-secondary btn-sm" onclick="revealAllBlur()">👁 Alles aufdecken</button>
+      </div>
+    </div>
+
+    <div id="guideContainer"></div>
+  </section>
+
+  <!-- ==================== TAB 2: KARTEIKARTEN (EINTIPPEN) ==================== -->
+  <section id="view-cards" class="view">
+    <div class="card">
+      <div class="controls-bar" style="margin-bottom:0;">
+        <div class="filter-pills" id="cardModePills">
+          <button class="pill active" onclick="setCardSubmode('free', this)">✍️ Freitext-Karteikarte (Eintippen)</button>
+          <button class="pill" onclick="setCardSubmode('cloze', this)">🔤 Exakter Lückentext-Drill</button>
+        </div>
+        <div class="filter-pills" id="cardFilterPills">
+          <button class="pill active" onclick="setCardFilter('all', this)">Alle</button>
+          <button class="pill" onclick="setCardFilter('gap', this)">⚠️ Nur Lücken</button>
+          <button class="pill" onclick="setCardFilter('due', this)">🔥 Noch unsicher</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Freitext Flashcard Box -->
+    <div id="freeCardArea" class="card">
+      <div class="fc-meta">
+        <div>
+          <span class="badge badge-note" id="fcTaskBadge">Aufgabe 1</span>
+          <span class="badge badge-gap" id="fcGapBadge" style="display:none;">⚠️ Fehlte in Mitschrift</span>
+        </div>
+        <div id="fcCounter">Karte 1 von 26 · Gemeistert: 0</div>
+      </div>
+
+      <div class="fc-question" id="fcQuestion"></div>
+      <div class="fc-hint" id="fcHint" style="display:none;"></div>
+
+      <label for="fcInput" class="muted" style="display:block; margin-bottom:6px;">
+        Tippe deine Antwort in eigenen Worten oder Stichpunkten ein (je genauer die Fachbegriffe, desto besser):
+      </label>
+      <textarea id="fcInput" class="answer-input" rows="4" placeholder="Hier eintippen... (Tipp: Strg + Enter zum Prüfen)"></textarea>
+
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
+        <button class="btn btn-primary" id="fcCheckBtn" onclick="checkFreeCard()">✅ Antwort prüfen <span class="kbd" style="color:#111;">Strg+↵</span></button>
+        <button class="btn btn-secondary" onclick="toggleCardHint()">💡 Hinweis zeigen</button>
+        <button class="btn btn-secondary" onclick="skipFreeCard()">Überspringen →</button>
+      </div>
+
+      <div id="fcResult" style="display:none;">
+        <div class="solution-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <strong>Schlüsselbegriff-Check:</strong>
+            <span id="fcScoreBadge" class="badge badge-ok">0 / 0 Treffer</span>
+          </div>
+          <div class="kw-chips" id="fcKwChips"></div>
+          <hr style="border:none; border-top:1px solid var(--border); margin:10px 0;">
+          <strong>Musterlösung (Klausur-Formulierung):</strong>
+          <div id="fcModelAnswer" style="margin-top:6px;"></div>
+        </div>
+
+        <p class="muted" style="margin:12px 0 4px;">Wie sicher war das? (Spaced Repetition: „Nochmal“ kommt in 3 Karten wieder!)</p>
+        <div class="rating-bar">
+          <button class="btn btn-danger" onclick="rateCard(1)">🔁 Nochmal bald <span class="kbd" style="color:#111;">1</span></button>
+          <button class="btn btn-warn" onclick="rateCard(2)">🤔 Teilweise <span class="kbd" style="color:#111;">2</span></button>
+          <button class="btn btn-success" onclick="rateCard(3)">✅ Sitzt perfekt! <span class="kbd" style="color:#111;">3</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloze Typing Drill Box -->
+    <div id="clozeArea" class="card" style="display:none;">
+      <div class="card-header">
+        <div>
+          <h2>🔤 Exakter Lückentext-Drill (Fachbegriffe &amp; Formeln)</h2>
+          <p class="muted" style="margin:2px 0 0;">Tippe die wichtigsten Klausur-Schlüsselbegriffe direkt in die Lücken ein.</p>
+        </div>
+        <span class="badge badge-note" id="clozeProgress">Block 1 / 5</span>
+      </div>
+      <div id="clozeBody" style="font-size:1rem; line-height:2.1;"></div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;">
+        <button class="btn btn-primary" onclick="checkCloze()">✅ Lücken prüfen</button>
+        <button class="btn btn-secondary" onclick="solveCloze()">👁 Lösung eintragen</button>
+        <button class="btn btn-secondary" onclick="nextClozeBlock()">Nächster Block →</button>
+      </div>
+      <div id="clozeFeedback" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: QUIZ & KLAUSURFALLEN ==================== -->
+  <section id="view-quiz" class="view">
+    <div class="card">
+      <div class="fc-meta">
+        <div>
+          <span class="badge badge-note" id="qTaskBadge">Aufgabe 1</span>
+          <span class="badge badge-purple" id="qTypeBadge">Verständnis</span>
+        </div>
+        <div id="qStats">Frage 1 / 24 · Richtig: 0 · Serie: 🔥 0</div>
+      </div>
+
+      <div class="filter-pills" style="margin-bottom:14px;">
+        <button class="pill active" onclick="setQuizMode('all', this)">Alle Fragen</button>
+        <button class="pill" onclick="setQuizMode('wrong', this)" id="wrongQuizBtn">🔁 Falsch beantwortete (0)</button>
+        <button class="pill" onclick="shuffleQuiz()">🔀 Neu mischen</button>
+      </div>
+
+      <div class="fc-question" id="qPrompt"></div>
+      <div class="quiz-options" id="qOptions"></div>
+      <div id="qFeedback" style="display:none;"></div>
+
+      <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+        <span class="muted">Tipp: Tasten <span class="kbd">A</span>–<span class="kbd">D</span> wählen, <span class="kbd">Enter</span> = Weiter</span>
+        <button class="btn btn-primary" id="qNextBtn" style="display:none;" onclick="nextQuizQuestion()">Nächste Frage →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: VISUELLE ZUORDNUNG ==================== -->
+  <section id="view-visual" class="view">
+    <div class="card">
+      <div class="card-header">
+        <h2>⚡ Challenge 1: Blitz-Sortierer (Minimal/Maximal &amp; BWL/VWL)</h2>
+        <span class="badge badge-ok" id="sortScoreBadge">Punkte: 0 · Serie: 0</span>
+      </div>
+      <div class="filter-pills" style="margin-bottom:10px;">
+        <button class="pill active" onclick="setSortDeck('prinzip', this)">Aufgabe 5: Minimal vs. Maximal vs. Unmöglich</button>
+        <button class="pill" onclick="setSortDeck('bwlvwl', this)">Aufgabe 6: BWL vs. VWL</button>
+        <button class="pill" onclick="setSortDeck('bbn', this)">Aufgabe 7: Bedürfnis vs. Bedarf vs. Nachfrage</button>
+      </div>
+      <div class="sort-item-box" id="sortPrompt"></div>
+      <div class="sort-btns" id="sortButtons"></div>
+      <div id="sortFeedback" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>🔺 Challenge 2: Maslow-Pyramide aufbauen (Aufgabe 8)</h2>
+        <span class="badge badge-gap">Fehlte in Mitschrift!</span>
+      </div>
+      <p class="muted" style="margin-top:0;">Ordne jeder Stufe (von oben nach unten!) den richtigen Namen und das passende Beispiel zu.</p>
+      <div class="maslow-wrap" id="maslowChallenge"></div>
+      <div style="display:flex; gap:8px; justify-content:center; margin-top:12px;">
+        <button class="btn btn-primary" onclick="checkMaslow()">✅ Pyramide prüfen</button>
+        <button class="btn btn-secondary" onclick="resetMaslow()">↺ Zurücksetzen</button>
+      </div>
+      <div id="maslowFeedback" style="margin-top:10px; text-align:center;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>🔄 Challenge 3: Wirtschaftskreislauf-Ströme zuordnen (Aufgabe 10a, b, c)</h2>
+        <span class="badge badge-note">Güterstrom 🔵 vs. Geldstrom 🟠</span>
+      </div>
+      <p class="muted" style="margin-top:0;">Merksatz: <strong>Güterstrom und Geldstrom fließen immer entgegengesetzt!</strong> Wähle für jede Austauschbeziehung die passenden Fachbegriffe aus.</p>
+      <div class="kreislauf-grid" id="kreislaufChallenge"></div>
+      <div style="display:flex; gap:8px; margin-top:14px;">
+        <button class="btn btn-primary" onclick="checkKreislauf()">✅ Alle Ströme prüfen</button>
+        <button class="btn btn-secondary" onclick="solveKreislauf()">👁 Musterlösung zeigen</button>
+      </div>
+      <div id="kreislaufFeedback" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: PROBE-KLAUSUR ==================== -->
+  <section id="view-exam" class="view">
+    <div id="examScoreBanner" class="score-banner" style="display:none;">
+      <div>
+        <div style="font-size:0.85rem; opacity:0.9;">Deine Probe-Klausur-Auswertung (Schlüsselbegriff-Check)</div>
+        <div class="score-big" id="examScoreText">0 / 50 Punkte</div>
+      </div>
+      <div id="examGradeText" style="font-weight:700; font-size:1.05rem;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>📝 Probe-Klausur: Aufgaben 1–10 (Realitätsnah)</h2>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-primary btn-sm" onclick="gradeExam()">✅ Klausur auswerten</button>
+          <button class="btn btn-secondary btn-sm" onclick="clearExam()">↺ Leeren</button>
+        </div>
+      </div>
+      <p class="muted" style="margin:0;">
+        Beantworte die Aufgaben in knappen Sätzen oder Stichpunkten – genau wie in der Klausur heute. Danach klickst du auf <strong>„Klausur auswerten“</strong> und siehst sofort deine Treffer bei den Fachbegriffen und die vollständige Musterlösung.
+      </p>
+    </div>
+
+    <div id="examContainer"></div>
+
+    <div style="text-align:center; margin-top:18px;">
+      <button class="btn btn-primary" style="padding:14px 28px; font-size:1rem;" onclick="gradeExam()">✅ Komplette Probe-Klausur jetzt auswerten</button>
+    </div>
+  </section>
+</main>
+
+<script>
+// ============================================================================
+// 1. MASTER CURRICULUM DATA (Aufgaben 1–10 · exakt an Mitschrift + Lücken)
+// ============================================================================
+
+const GUIDE_DATA = [
+  {
+    id: 1,
+    title: "Aufgabe 1: Begriff „Wirtschaften“",
+    hasGap: false,
+    html: `
+      <p><strong>Definition (exakte Mitschrift):</strong><br>
+      <span class="kw">Zielorientiertes Entscheiden</span> über die <span class="kw">Verwendung knapper Mittel / Ressourcen</span> nach dem <span class="kw">ökonomischen Prinzip</span> (wirtschaftlichen Prinzip).</p>
+      <p class="muted">💡 Eselsbrücke: <strong>Z – K – Ö</strong> = <strong>Z</strong>ielorientiert über <strong>K</strong>nappe Mittel nach dem <strong>Ö</strong>konomischen Prinzip entscheiden.</p>
+    `
+  },
+  {
+    id: 2,
+    title: "Aufgabe 2: Notwendigkeit des Wirtschaftens",
+    hasGap: false,
+    html: `
+      <p><strong>Spannungsverhältnis (Knappheitsproblem):</strong><br>
+      Nahezu <span class="kw">unbegrenzten Bedürfnissen / Wünschen</span> stehen <span class="kw">begrenzte Mittel</span> gegenüber.</p>
+      <p><strong>Beispiele für begrenzte Mittel:</strong> <span class="kw">Geld / liquide Mittel</span>, <span class="kw">Zeit / Arbeitszeit</span>, <span class="kw">natürliche Ressourcen</span> (Rohstoffe, Boden, Energie).</p>
+    `
+  },
+  {
+    id: 3,
+    title: "Aufgabe 3: Die drei Wirtschaftssubjekte",
+    hasGap: false,
+    html: `
+      <ul class="clean">
+        <li><span class="kw">Staat</span> (Gebietskörperschaften: <span class="kw">Bund, Länder, Gemeinden</span>)</li>
+        <li><span class="kw">Unternehmen</span></li>
+        <li><span class="kw">Private Haushalte</span> (Privatpersonen)</li>
+      </ul>
+    `
+  },
+  {
+    id: 4,
+    title: "Aufgabe 4: Grundlegende Ziele der Wirtschaftssubjekte",
+    hasGap: true,
+    html: `
+      <p><strong>1. Unternehmen (aus Mitschrift):</strong></p>
+      <ul class="clean">
+        <li><strong>Oberziel:</strong> <span class="kw">Gewinnmaximierung</span></li>
+        <li><strong>Zwischenziel-Kette Qualität:</strong> Stetige Verbesserung der <span class="kw">Produkt- und Dienstleistungsqualität</span> ⇒ <span class="kw">Kundenzufriedenheit</span> ⇒ positives Empfehlungsverhalten &amp; <span class="kw">guter Ruf in der Branche</span> (<span class="kw">immaterieller Firmenwert</span>) ⇒ <span class="kw">Neukundengewinnung</span></li>
+        <li><strong>Guter Kundenstamm:</strong> <span class="kw">zahlungsfähige und zahlungsbereite Kunden</span></li>
+        <li><strong><span class="kw">Umsatzsteigerung</span>:</strong> durch Erhöhung der <span class="kw">Absatzmarktpreise</span> oder Erhöhung der <span class="kw">Absatzmenge</span></li>
+        <li><strong><span class="kw">Kostensenkung / Kostenminimierung</span>:</strong> auf der <span class="kw">Beschaffungsseite</span> des Unternehmens</li>
+      </ul>
+      <div class="gap-box">
+        <h4>⚠️ Ergänzt (fehlte bei A4, vgl. auch A9): Private Haushalte &amp; Staat</h4>
+        <ul class="clean">
+          <li><strong>Private Haushalte:</strong> <span class="kw">Nutzenmaximierung</span> (möglichst hohe Bedürfnisbefriedigung durch Konsumieren und Sparen mit dem vorhandenen Einkommen; vgl. <span class="kw">Gossen’sche Gesetze</span>).</li>
+          <li><strong>Staat:</strong> <span class="kw">Höchstmöglicher Wohlstand der Bevölkerung</span> (Gemeinwohl) durch Bereitstellung von <span class="kw">Infrastruktur</span> bei <span class="kw">Kostendeckung der Staatsausgaben durch Steuereinnahmen</span>.</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    id: 5,
+    title: "Aufgabe 5: Das ökonomische Prinzip (Minimal- & Maximalprinzip)",
+    hasGap: true,
+    html: `
+      <div class="gap-box">
+        <h4>⚠️ Komplett ergänzt (fehlte in der Mitschrift!)</h4>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Prinzip</th>
+              <th>Definition (Was ist fest? Was wird optimiert?)</th>
+              <th>Beispiele (Haushalt / Unternehmen / Staat)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong><span class="kw">Minimalprinzip</span></strong><br><small>(Sparsamkeitsprinzip)</small></td>
+              <td>Ein <span class="kw">vorgegebenes / festes Ziel</span> mit <span class="kw">möglichst geringem Mitteleinsatz</span> erreichen.<br><em>Merke: <strong>M</strong>inimal = <strong>M</strong>ittel minimieren!</em></td>
+              <td>• <em>Haushalt:</em> Bestimmtes Smartphone zum günstigsten Preis kaufen.<br>• <em>Unternehmen:</em> 1.000 Tische mit minimalen Kosten fertigen.<br>• <em>Staat:</em> Geplante Brücke so sparsam wie möglich bauen.</td>
+            </tr>
+            <tr>
+              <td><strong><span class="kw">Maximalprinzip</span></strong><br><small>(Ergiebigkeitsprinzip)</small></td>
+              <td>Mit <span class="kw">gegebenen / festen Mitteln</span> ein <span class="kw">möglichst großes Ergebnis (Ziel)</span> erzielen.<br><em>Merke: <strong>Max</strong>imal = Ergebnis <strong>max</strong>imieren!</em></td>
+              <td>• <em>Haushalt:</em> Mit 100 € Einkaufsbudget möglichst viel Nutzen erhalten.<br>• <em>Unternehmen:</em> Mit 5.000 € Werbebudget maximalen Umsatz erzielen.<br>• <em>Staat:</em> Mit festem Schuletat möglichst viele Tablets beschaffen.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin:10px 0 6px;"><strong>🚨 Klassische Klausurfalle:</strong> „Mit minimalen Mitteln ein maximales Ergebnis erreichen“ ist <span class="kw">unmöglich / logisch falsch</span>! Eine Größe muss immer feststehen (entweder Ziel ODER Mittel).</p>
+        <p style="margin:0;"><strong>Sinnvolle Verhaltensweisen der Wirtschaftssubjekte (rationales Handeln):</strong><br>
+        • <em>Haushalte:</em> Preise/Qualität vergleichen, Haushaltsbudget planen, Rücklagen bilden.<br>
+        • <em>Unternehmen:</em> Lieferantenvergleiche (Beschaffung), effiziente Prozesse, Kundenorientierung &amp; gezieltes Marketing.<br>
+        • <em>Staat:</em> Öffentliche Ausschreibungen, wirtschaftliche Verwendung von Steuergeldern, solide Haushaltsplanung.</p>
+      </div>
+    `
+  },
+  {
+    id: 6,
+    title: "Aufgabe 6: Wirtschaftswissenschaften – BWL und VWL im Vergleich",
+    hasGap: true,
+    html: `
+      <div class="gap-box">
+        <h4>⚠️ Komplett ergänzt (fehlte in der Mitschrift!)</h4>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Kriterium</th>
+              <th><span class="kw">BWL</span> (Betriebswirtschaftslehre)</th>
+              <th><span class="kw">VWL</span> (Volkswirtschaftslehre)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Perspektive</strong></td>
+              <td><span class="kw">Einzelwirtschaftlich</span> („Froschperspektive“ / Sicht eines einzelnen Betriebs)</td>
+              <td><span class="kw">Gesamtwirtschaftlich</span> („Vogelperspektive“ / Sicht der ganzen Volkswirtschaft)</td>
+            </tr>
+            <tr>
+              <td><strong>Untersuchungsgegenstand</strong></td>
+              <td>Aufbau, Abläufe und Entscheidungen <span class="kw">einzelner Unternehmen</span> (Beschaffung, Produktion, Absatz, Finanzierung, Personal)</td>
+              <td>Zusammenwirken aller <span class="kw">Wirtschaftssektoren</span> (Haushalte, Unternehmen, Staat, Ausland) &amp; Märkte eines Landes</td>
+            </tr>
+            <tr>
+              <td><strong>Typische Themen / Fragen</strong></td>
+              <td>Gewinn, Kostenkalkulation, Marketing, Standortwahl, Bilanz, Personalplanung</td>
+              <td><span class="kw">Wirtschaftskreislauf</span>, BIP/Wachstum, <span class="kw">Inflation</span>, <span class="kw">Arbeitslosigkeit</span>, Konjunktur, Steuern, Außenhandel</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin:8px 0 0;"><strong>Gemeinsamkeit:</strong> Beide untersuchen den Umgang mit knappen Ressourcen und beeinflussen sich gegenseitig (z. B. beeinflusst die Zinspolitik [VWL] die Kreditkosten eines Betriebs [BWL]).</p>
+      </div>
+    `
+  },
+  {
+    id: 7,
+    title: "Aufgabe 7: Bedürfnis, Bedarf, Nachfrage + die 3 Grundformeln",
+    hasGap: false,
+    html: `
+      <p><strong>Die 3-Stufen-Kette (aus Mitschrift):</strong></p>
+      <ul class="clean">
+        <li><strong><span class="kw">Bedürfnis</span></strong> = <span class="kw">Wunsch, Mangelempfinden</span> (z. B. Hunger, Wunsch nach Mobilität).</li>
+        <li><strong><span class="kw">Bedarf</span></strong> = <span class="kw">mit Kaufkraft ausgestattete Summe der Bedürfnisse</span> nach einem <span class="kw">bestimmten / konkreten Produkt</span>.
+          <br><span class="muted">↳ <strong>Grundsatz der <span class="kw">Kundenorientierung</span>:</strong> Die <span class="kw">unternehmerische Planung</span> nimmt ihren Ursprung auf dem <span class="kw">Absatzmarkt</span>, um von Anfang an Kundenwünsche in Produktmerkmale umsetzen zu können („Der Kunde ist König“).</span>
+        </li>
+        <li><strong><span class="kw">Nachfrage</span></strong> = der Teil des Bedarfs, der durch die <span class="kw">tatsächlichen Kaufhandlungen</span> der Kunden zu <span class="kw">Nachfragemenge</span> wird und damit zu <span class="kw">Umsatzerlösen</span> führt ⇒ <span class="kw">Zufluss liquider / flüssiger Mittel</span> in die Geschäftskasse und auf das betriebliche Bankkonto.</li>
+      </ul>
+      <div class="formula-grid">
+        <div class="formula-box"><span class="kw">Umsatzerlöse</span> = Absatzmenge × Absatzmarktpreise</div>
+        <div class="formula-box"><span class="kw">Kosten</span> = Beschaffungsmengen × Beschaffungsmarktpreise</div>
+        <div class="formula-box"><span class="kw">Gewinn</span> = Umsatzerlöse − Kosten</div>
+      </div>
+    `
+  },
+  {
+    id: 8,
+    title: "Aufgabe 8: Bedürfnispyramide nach Maslow (inkl. kritischer Würdigung)",
+    hasGap: true,
+    html: `
+      <div class="gap-box">
+        <h4>⚠️ Beschreibung der 5 Stufen ergänzt (fehlte: „vgl. Buch S. 23“)</h4>
+        <ol reversed start="5" class="clean">
+          <li><strong><span class="kw">Selbstverwirklichungsbedürfnisse</span></strong> <em>(Wachstumsbedürfnis – nie ganz sättigbar)</em>: Kreativität, Talente entfalten, Unabhängigkeit, Selbstentfaltung.</li>
+          <li><strong><span class="kw">Wertschätzungs- / Anerkennungsbedürfnisse</span></strong> (Ich-Bedürfnisse): Prestige, Status, Erfolg, Lob, Beförderung, Selbstachtung.</li>
+          <li><strong><span class="kw">Soziale Bedürfnisse</span></strong>: Freundschaft, Familie, Liebe, Zugehörigkeit, Gemeinschaft.</li>
+          <li><strong><span class="kw">Sicherheitsbedürfnisse</span></strong>: Sicherer Arbeitsplatz, Schutz vor Gefahren, Versicherungen, Rechtssicherheit, Altersvorsorge.</li>
+          <li><strong><span class="kw">Physiologische Bedürfnisse</span></strong> (Grund-/Existenzbedürfnisse): Essen, Trinken, Schlafen, Kleidung, Wohnung.</li>
+        </ol>
+        <p class="muted" style="margin:6px 0 0;">Stufen 1–4 = <strong>Defizitbedürfnisse</strong> (Mangelbedürfnisse), Stufe 5 = <strong>Wachstumsbedürfnis</strong>. Eselsbrücke von unten nach oben: <strong>P – S – S – W – S</strong> (<strong>P</strong>izza <strong>s</strong>ichert <strong>s</strong>oziale <strong>W</strong>ertschätzung <strong>s</strong>ofort).</p>
+      </div>
+      <p><strong>Erläuterung (Mitschrift):</strong> Maslow unterstellt, dass eine <span class="kw">höher gelegene Stufe erst angestrebt</span> wird, wenn die Bedürfnisse der <span class="kw">darunterliegenden Stufe erfüllt</span> sind.</p>
+      <p><strong>Kritische Würdigung (Mitschrift – extrem klausurrelevant!):</strong></p>
+      <ul class="clean">
+        <li><strong>+ Positiv:</strong> Unterstützt Unternehmer, sich über die <span class="kw">Bedürfnisstruktur ihrer Kunden</span> Klarheit zu verschaffen und <span class="kw">Konsequenzen für die Vermarktung</span> zu ziehen.<br>
+        <em>Bsp. Brot (physiol. Bedürfnis Hunger):</em> wird immer gekauft ⇒ <span class="kw">sicherer Absatzmarkt, gut planbar, jedoch kein Wachstumsmarkt</span>.</li>
+        <li><strong>− Negativ:</strong>
+          <br>1. Zuordnung der Bedürfnisse zu den Ebenen ist <span class="kw">individuell / nicht eindeutig</span>.
+          <br>2. Menschliches Verhalten ist <span class="kw">nicht so starr</span> (z. B. 4. Ebene anstreben, obwohl 3. Ebene nicht erfüllt; <span class="kw">„Künstler-Beispiel“</span>).
+          <br>3. Trifft eher für die <span class="kw">westliche Welt</span> zu, in einer <span class="kw">globalisierten Wirtschaftswelt</span> nicht allgemein anwendbar.
+        </li>
+        <li><strong>★ Relativierung der negativen Kritik:</strong> Die Bedürfnispyramide ist ein <span class="kw">Modell</span>. Modelle dienen der <span class="kw">vereinfachenden Darstellung der komplexen Realität zur Erkenntnisgewinnung</span>.</li>
+      </ul>
+    `
+  },
+  {
+    id: 9,
+    title: "Aufgabe 9: Wirtschaftskreislauf – Aggregation zu Wirtschaftssektoren",
+    hasGap: false,
+    html: `
+      <p><strong>Warum können individuelle Wirtschaftssubjekte zusammengefasst (aggregiert) werden?</strong><br>
+      Weil sie trotz Individualität <span class="kw">gleichartige wirtschaftliche Funktionen / Gemeinsamkeiten und Ziele</span> besitzen:</p>
+      <table class="compare">
+        <thead>
+          <tr><th>Individuelle Subjekte → Sektor</th><th>Gemeinsamkeiten &amp; Ziele (exakte Mitschrift)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Individuelle Haushalte</strong><br>→ Haushaltssektor</td>
+            <td>Endverbraucher / Konsumenten <span class="kw">konsumieren und sparen</span> mit dem Ziel der <span class="kw">Nutzenmaximierung</span> (<span class="kw">Gossen’sche Gesetze</span>).</td>
+          </tr>
+          <tr>
+            <td><strong>Individuelle Unternehmen</strong><br>→ Unternehmenssektor</td>
+            <td>Unternehmen <span class="kw">investieren, finanzieren und produzieren</span> mit dem Ziel der <span class="kw">Gewinnmaximierung</span>.</td>
+          </tr>
+          <tr>
+            <td><strong>Behörden des Staates</strong><br>→ Staatssektor</td>
+            <td>Stellt <span class="kw">Infrastruktur</span> zur Verfügung mit dem Ziel <span class="kw">„höchstmöglicher Wohlstand der Bevölkerung“</span> bei <span class="kw">Kostendeckung der Staatsausgaben durch Steuereinnahmen</span>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:8px;"><strong>Beispiele aus Anmerkungen:</strong><br>
+      • <em>Staatliche Behörden:</em> Finanzämter, Polizei, Verteidigung, Ordnungsamt, Bezirksamt, Kindergeldkasse, öffentliche Schulen &amp; Hochschulen.<br>
+      • <em>Infrastruktur:</em> Verkehrswege/Straßen, Schulen, öffentliche Ordnung, Rechtssicherheit durch Rechtspflege, Krankenhäuser/Pflegeeinrichtungen, Landtag/Bundestag, Ministerien.</p>
+    `
+  },
+  {
+    id: 10,
+    title: "Aufgabe 10: Güterströme und Geldströme (entgegengesetzt!)",
+    hasGap: true,
+    html: `
+      <p><strong>Grundprinzip:</strong> <span class="kw">Güterströme</span> (🔵) und <span class="kw">Geldströme</span> (🟠) fließen <span class="kw">einander entgegen</span>. Klicke auf eine Verbindung im Diagramm für Details:</p>
+      <div class="svg-box">
+        <svg viewBox="0 0 760 270" width="100%" style="max-height:260px; display:block;">
+          <defs>
+            <marker id="arrB" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0284c7"/></marker>
+            <marker id="arrO" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#d97706"/></marker>
+          </defs>
+          <!-- Nodes -->
+          <rect x="20" y="100" width="175" height="72" rx="12" fill="#2563eb"/>
+          <text x="107" y="132" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">UNTERNEHMEN</text>
+          <text x="107" y="152" text-anchor="middle" fill="#dbeafe" font-size="11">produzieren · investieren</text>
+
+          <rect x="565" y="100" width="175" height="72" rx="12" fill="#0f766e"/>
+          <text x="652" y="132" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">HAUSHALTE</text>
+          <text x="652" y="152" text-anchor="middle" fill="#ccfbf1" font-size="11">konsumieren · sparen</text>
+
+          <rect x="292" y="190" width="176" height="68" rx="12" fill="#7c3aed"/>
+          <text x="380" y="220" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">STAAT</text>
+          <text x="380" y="240" text-anchor="middle" fill="#ede9fe" font-size="11">Infrastruktur · Steuern</text>
+
+          <!-- 10a Top: U <-> H -->
+          <g style="cursor:pointer;" onclick="showSvgDetail('10a')">
+            <path d="M 195 112 Q 380 48 560 112" fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrB)"/>
+            <text x="380" y="64" text-anchor="middle" fill="#0284c7" font-weight="700" font-size="12">🔵 Fertigerzeugnisse / Waren → Konsumgüter (10a)</text>
+            <path d="M 565 126 Q 380 78 200 126" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrO)"/>
+            <text x="380" y="96" text-anchor="middle" fill="#d97706" font-weight="700" font-size="12">🟠 Konsumausgaben → Umsatzerlöse (10a)</text>
+
+            <path d="M 565 148 Q 380 150 200 148" fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrB)"/>
+            <text x="380" y="142" text-anchor="middle" fill="#0284c7" font-weight="700" font-size="11">🔵 Arbeitskraft → Produktionsfaktor „Arbeit“</text>
+            <path d="M 195 162 Q 380 176 560 162" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrO)"/>
+            <text x="380" y="177" text-anchor="middle" fill="#d97706" font-weight="700" font-size="11">🟠 Lohnaufwand → Haushaltseinkommen</text>
+          </g>
+
+          <!-- 10b Left: U <-> Staat -->
+          <g style="cursor:pointer;" onclick="showSvgDetail('10b')">
+            <path d="M 145 174 L 290 218" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrO)"/>
+            <path d="M 290 236 L 120 176" fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrB)"/>
+            <rect x="35" y="198" width="190" height="44" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+            <text x="130" y="216" text-anchor="middle" fill="#92400e" font-weight="800" font-size="11">10b: Unternehmen ↔ Staat</text>
+            <text x="130" y="232" text-anchor="middle" fill="#92400e" font-size="10">Steuern, Infrastruktur, Aufträge, Subv.</text>
+          </g>
+
+          <!-- 10c Right: H <-> Staat -->
+          <g style="cursor:pointer;" onclick="showSvgDetail('10c')">
+            <path d="M 615 174 L 470 218" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrO)"/>
+            <path d="M 470 236 L 640 176" fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrB)"/>
+            <rect x="535" y="198" width="190" height="44" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+            <text x="630" y="216" text-anchor="middle" fill="#92400e" font-weight="800" font-size="11">10c: Haushalte ↔ Staat</text>
+            <text x="630" y="232" text-anchor="middle" fill="#92400e" font-size="10">Steuern, Infrastruktur, Arbeit, Transfers</text>
+          </g>
+        </svg>
+        <div class="svg-detail" id="svgDetailBox">
+          👆 Klicke oben im Diagramm auf <strong>10a</strong>, <strong>10b</strong> oder <strong>10c</strong>, um die genaue Erklärung anzuzeigen.
+        </div>
+      </div>
+
+      <p><strong>zu 10a) Unternehmen ↔ Haushalte (exakte Mitschrift):</strong></p>
+      <ul class="clean">
+        <li>🔵 <em>Güterstrom U → H:</em> <span class="kw">Fertigerzeugnisse und Waren</span> verlassen die Unternehmen (Fertigungs- &amp; Handelsbetriebe) und erreichen die Haushalte als <span class="kw">Konsumgüter</span>.</li>
+        <li>🟠 <em>Geldstrom H → U:</em> Aus Sicht der Haushalte sind die liquiden Mittel <span class="kw">Konsumausgaben</span>, die bei den Unternehmen als <span class="kw">Umsatzerlöse</span> zufließen.</li>
+        <li>🔵 <em>Güterstrom H → U:</em> Haushalte stellen über den <span class="kw">Arbeitsmarkt</span> ihre <span class="kw">Arbeitskraft</span> (immaterielles Wirtschaftsgut) zur Verfügung; Unternehmen beschaffen den <span class="kw">Produktionsfaktor „Arbeit“</span>.</li>
+        <li>🟠 <em>Geldstrom U → H:</em> Aus Sicht der Unternehmen wird <span class="kw">Lohnaufwand</span> gezahlt, der bei den Haushalten als <span class="kw">Haushaltseinkommen</span> zufließt.</li>
+      </ul>
+
+      <div class="gap-box">
+        <h4>⚠️ Ergänzt: 10b) Unternehmen ↔ Staat &amp; 10c) Haushalte ↔ Staat (fehlten in Mitschrift!)</h4>
+        <p style="margin:0 0 6px;"><strong>zu 10b) Unternehmen ↔ Staat:</strong></p>
+        <ul class="clean">
+          <li>🔵 <em>Güterstrom Staat → U:</em> Staat stellt <span class="kw">Infrastruktur</span> &amp; öffentliche Leistungen (Straßen, Rechtssicherheit, Bildung) zur Verfügung.</li>
+          <li>🟠 <em>Geldstrom U → Staat:</em> Unternehmen zahlen <span class="kw">Steuern</span> (z. B. Gewerbe-, Körperschaftsteuer) ⇒ beim Staat <span class="kw">Steuereinnahmen</span>.</li>
+          <li>🔵 <em>Güterstrom U → Staat:</em> Unternehmen liefern <span class="kw">Güter &amp; Dienstleistungen</span> (öffentliche Aufträge, z. B. Straßenbau, Polizeiautos).</li>
+          <li>🟠 <em>Geldstrom Staat → U:</em> Staat leistet <span class="kw">Staatsausgaben</span> ⇒ bei Unternehmen <span class="kw">Umsatzerlöse</span>. <em>(Zudem einseitiger Geldstrom ohne direkte Gegenleistung: <span class="kw">Subventionen</span> / Fördergelder vom Staat an Unternehmen.)</em></li>
+        </ul>
+        <p style="margin:8px 0 6px;"><strong>zu 10c) Haushalte ↔ Staat:</strong></p>
+        <ul class="clean">
+          <li>🔵 <em>Güterstrom Staat → H:</em> Staat stellt <span class="kw">Infrastruktur</span> &amp; öffentliche Güter (Schulen, Straßen, Polizei, Krankenhäuser) zur Verfügung.</li>
+          <li>🟠 <em>Geldstrom H → Staat:</em> Haushalte zahlen <span class="kw">Steuern</span> (z. B. Lohn-/Einkommensteuer) &amp; Abgaben ⇒ beim Staat <span class="kw">Steuereinnahmen</span>.</li>
+          <li>🔵 <em>Güterstrom H → Staat:</em> Haushalte stellen <span class="kw">Arbeitskraft</span> im öffentlichen Dienst (z. B. Lehrer, Polizisten, Verwaltung) zur Verfügung.</li>
+          <li>🟠 <em>Geldstrom Staat → H:</em> Staat zahlt <span class="kw">Löhne / Gehälter</span> ⇒ bei Haushalten <span class="kw">Haushaltseinkommen</span>. <em>(Zudem einseitiger Geldstrom ohne direkte Gegenleistung: <span class="kw">Transferzahlungen</span> wie Kindergeld, BAföG, Bürgergeld.)</em></li>
+        </ul>
+      </div>
+    `
+  }
+];
+
+const SVG_DETAILS = {
+  "10a": "<strong>10a) Unternehmen ↔ Haushalte (Einfacher Wirtschaftskreislauf):</strong><br>1. 🔵 Unternehmen liefern Fertigerzeugnisse/Waren (Konsumgüter) → 🟠 Haushalte zahlen Konsumausgaben (= Umsatzerlöse bei Unternehmen).<br>2. 🔵 Haushalte liefern Arbeitskraft (Produktionsfaktor Arbeit) → 🟠 Unternehmen zahlen Lohnaufwand (= Haushaltseinkommen bei Haushalten).",
+  "10b": "<strong>10b) Unternehmen ↔ Staat (Erweiterter Wirtschaftskreislauf):</strong><br>1. 🔵 Staat stellt Infrastruktur/Rechtssicherheit → 🟠 Unternehmen zahlen Steuern (= Steuereinnahmen).<br>2. 🔵 Unternehmen liefern Güter/Dienste (Staatsaufträge) → 🟠 Staat zahlt Staatsausgaben (= Umsatzerlöse).<br>3. 🟠 Einseitig: Staat zahlt Subventionen an Unternehmen.",
+  "10c": "<strong>10c) Haushalte ↔ Staat (Erweiterter Wirtschaftskreislauf):</strong><br>1. 🔵 Staat stellt Infrastruktur/Schulen/Sicherheit → 🟠 Haushalte zahlen Steuern/Abgaben (= Steuereinnahmen).<br>2. 🔵 Haushalte stellen Arbeitskraft im öffentlichen Dienst → 🟠 Staat zahlt Löhne/Gehälter (= Haushaltseinkommen).<br>3. 🟠 Einseitig: Staat zahlt Transferzahlungen (Kindergeld, BAföG, Bürgergeld) an Haushalte."
+};
+
+// ============================================================================
+// 2. FLASHCARDS (TYPING + KEYWORD CHECKER) — 26 Cards covering A1–A10
+// ============================================================================
+const FLASHCARDS = [
+  {
+    id: "fc1", task: 1, gap: false,
+    q: "Bestimmen Sie den Begriff „Wirtschaften“.",
+    hint: "Denk an Z – K – Ö (Ziel..., Knapp..., Ökon...).",
+    model: "Zielorientiertes Entscheiden über die Verwendung knapper Mittel / Ressourcen nach dem ökonomischen Prinzip (wirtschaftlichen Prinzip).",
+    keywords: [
+      { label: "zielorientiert / Entscheiden", match: ["zielorientiert", "entscheid"] },
+      { label: "knappe Mittel / Ressourcen", match: ["knapp", "ressourc", "mittel"] },
+      { label: "ökonomisches / wirtschaftliches Prinzip", match: ["ökonomisch", "oekonomisch", "wirtschaftlich"] }
+    ]
+  },
+  {
+    id: "fc2", task: 2, gap: false,
+    q: "Erläutern Sie die Notwendigkeit des Wirtschaftens und nennen Sie 3 Beispiele für begrenzte Mittel.",
+    hint: "Was steht sich gegenüber? (unbegrenzt vs. begrenzt)",
+    model: "Nahezu unbegrenzten Bedürfnissen/Wünschen stehen begrenzte Mittel gegenüber. Beispiele für begrenzte Mittel: Geld/liquide Mittel, Zeit/Arbeitszeit, natürliche Ressourcen.",
+    keywords: [
+      { label: "unbegrenzte Bedürfnisse/Wünsche", match: ["unbegrenzt", "bedürfnis", "beduerfnis", "wünsch", "wuensch"] },
+      { label: "begrenzte Mittel", match: ["begrenzt", "knapp"] },
+      { label: "Geld / liquide Mittel", match: ["geld", "liquid"] },
+      { label: "Zeit / Arbeitszeit", match: ["zeit"] },
+      { label: "natürliche Ressourcen", match: ["ressourc", "rohstoff", "natürlich", "natuerlich"] }
+    ]
+  },
+  {
+    id: "fc3", task: 3, gap: false,
+    q: "Nennen Sie die drei wirtschaftenden Wirtschaftssubjekte (inkl. der 3 Gebietskörperschaften beim Staat).",
+    hint: "Wer wirtschaftet in einer Volkswirtschaft?",
+    model: "1. Staat (Gebietskörperschaften: Bund, Länder, Gemeinden), 2. Unternehmen, 3. Private Haushalte (Privatpersonen).",
+    keywords: [
+      { label: "Staat", match: ["staat"] },
+      { label: "Bund, Länder, Gemeinden", match: ["bund", "länder", "laender", "gemeind", "gebietskörperschaft"] },
+      { label: "Unternehmen", match: ["unternehmen", "betrieb"] },
+      { label: "Private Haushalte", match: ["haushalt", "privatperson"] }
+    ]
+  },
+  {
+    id: "fc4", task: 4, gap: false,
+    q: "Was ist das Oberziel von Unternehmen und wie lautet die Zwischenziel-Kette rund um Produktqualität?",
+    hint: "Qualität ⇒ Zufriedenheit ⇒ ... ⇒ Neukunden",
+    model: "Oberziel: Gewinnmaximierung. Kette: Stetige Verbesserung der Produkt- und Dienstleistungsqualität ⇒ Kundenzufriedenheit ⇒ positives Empfehlungsverhalten und guter Ruf in der Branche (immaterieller Firmenwert) ⇒ Neukundengewinnung.",
+    keywords: [
+      { label: "Gewinnmaximierung", match: ["gewinnmaxim"] },
+      { label: "Qualität", match: ["qualität", "qualitaet"] },
+      { label: "Kundenzufriedenheit", match: ["zufriedenheit"] },
+      { label: "Empfehlung / guter Ruf / immaterieller Firmenwert", match: ["empfehl", "ruf", "firmenwert", "image"] },
+      { label: "Neukundengewinnung", match: ["neukund"] }
+    ]
+  },
+  {
+    id: "fc5", task: 4, gap: false,
+    q: "Welche weiteren Zwischenziele verfolgen Unternehmen neben Qualität? (Kundenstamm, Umsatz, Kosten)",
+    hint: "Wodurch steigt der Umsatz? Auf welcher Seite spart man Kosten?",
+    model: "• Guter Kundenstamm (zahlungsfähige und zahlungsbereite Kunden) • Umsatzsteigerung (durch Erhöhung der Absatzmarktpreise oder Absatzmenge) • Kostensenkung / Kostenminimierung (Beschaffungsseite).",
+    keywords: [
+      { label: "Kundenstamm (zahlungsfähig & -bereit)", match: ["kundenstamm", "zahlungsfähig", "zahlungsbereit"] },
+      { label: "Umsatzsteigerung (Preis oder Menge)", match: ["umsatz", "absatzmenge", "absatzmarktpreis", "preis"] },
+      { label: "Kostensenkung / -minimierung", match: ["kosten"] },
+      { label: "Beschaffungsseite", match: ["beschaffung", "einkauf"] }
+    ]
+  },
+  {
+    id: "fc6", task: 4, gap: true,
+    q: "Welche grundlegenden Ziele verfolgen Private Haushalte und der Staat? (Fehlte bei A4!)",
+    hint: "Schau auch in Aufgabe 9: Nutzen... und Wohlstand...",
+    model: "Private Haushalte: Nutzenmaximierung (durch Konsumieren und Sparen, Gossen'sche Gesetze). Staat: Höchstmöglicher Wohlstand der Bevölkerung (Gemeinwohl) durch Bereitstellung von Infrastruktur bei Kostendeckung durch Steuereinnahmen.",
+    keywords: [
+      { label: "Haushalte: Nutzenmaximierung", match: ["nutzenmaxim", "nutzen"] },
+      { label: "Staat: Wohlstand der Bevölkerung / Gemeinwohl", match: ["wohlstand", "gemeinwohl"] },
+      { label: "Infrastruktur", match: ["infrastruktur"] },
+      { label: "Kostendeckung / Steuereinnahmen", match: ["kostendeck", "steuer"] }
+    ]
+  },
+  {
+    id: "fc7", task: 5, gap: true,
+    q: "Erklären Sie das Minimalprinzip und geben Sie ein konkretes Beispiel.",
+    hint: "M = Mittel minimieren! Was steht fest?",
+    model: "Minimalprinzip (Sparsamkeitsprinzip): Ein vorgegebenes/festes Ziel wird mit einem möglichst geringen Mitteleinsatz erreicht. Beispiel: 1.000 Stück eines Produkts mit möglichst niedrigen Kosten produzieren (oder ein bestimmtes Handy zum niedrigsten Preis kaufen).",
+    keywords: [
+      { label: "vorgegebenes / festes Ziel", match: ["fest", "vorgegeben", "bestimmt", "ziel", "ergebnis"] },
+      { label: "möglichst geringer Mitteleinsatz", match: ["gering", "minimal", "wenig", "sparsam", "mittel", "kosten"] },
+      { label: "konkretes Beispiel", match: ["bsp", "beispiel", "kaufen", "produzier", "fahren", "bauen", "stück", "euro", "€"] }
+    ]
+  },
+  {
+    id: "fc8", task: 5, gap: true,
+    q: "Erklären Sie das Maximalprinzip und geben Sie ein konkretes Beispiel.",
+    hint: "Max = Ergebnis maximieren! Was steht fest?",
+    model: "Maximalprinzip (Ergiebigkeitsprinzip): Mit vorgegebenen/festen Mitteln wird ein möglichst großes Ziel/Ergebnis erreicht. Beispiel: Mit einem Werbebudget von 5.000 € möglichst viel Umsatz erzielen (oder mit 50 € Einkaufsbudget möglichst viel Nutzen erhalten).",
+    keywords: [
+      { label: "gegebene / feste Mittel", match: ["gegeben", "fest", "vorgegeben", "budget", "mittel"] },
+      { label: "möglichst großes Ziel / Ergebnis", match: ["groß", "gross", "maximal", "höchst", "hoechst", "ergebnis", "ziel", "nutzen", "umsatz"] },
+      { label: "konkretes Beispiel", match: ["bsp", "beispiel", "budget", "euro", "€", "werb", "umsatz", "einkauf"] }
+    ]
+  },
+  {
+    id: "fc9", task: 5, gap: true,
+    q: "Warum ist die Aussage „Mit minimalen Mitteln ein maximales Ergebnis erzielen“ falsch? Nennen Sie zudem sinnvolle Verhaltensweisen der Wirtschaftssubjekte.",
+    hint: "Wie viele Größen müssen feststehen? Wie handeln Haushalte, Unternehmen, Staat vernünftig?",
+    model: "Es ist logisch unmöglich, da eine Größe (Ziel ODER Mittel) immer fest vorgegeben sein muss. Sinnvolle Verhaltensweisen: Preis-/Qualitätsvergleiche & Budgetplanung (Haushalte), Angebotsvergleiche & effiziente Produktion (Unternehmen), öffentliche Ausschreibungen & sparsamer Umgang mit Steuergeldern (Staat).",
+    keywords: [
+      { label: "unmöglich / eine Größe muss feststehen", match: ["unmöglich", "unmoeglich", "nicht möglich", "fest", "widerspruch", "logisch"] },
+      { label: "Preisvergleich / Budget / Ausschreibung / Effizienz", match: ["vergleich", "budget", "ausschreib", "effizien", "plan", "spar"] }
+    ]
+  },
+  {
+    id: "fc10", task: 6, gap: true,
+    q: "Stellen Sie BWL und VWL vergleichend gegenüber (Perspektive, Gegenstand, typische Themen).",
+    hint: "Frosch- vs. Vogelperspektive! Einzelbetrieb vs. Gesamtwirtschaft.",
+    model: "BWL (Betriebswirtschaftslehre): einzelwirtschaftliche Perspektive; untersucht einzelne Unternehmen & interne Abläufe (Beschaffung, Produktion, Absatz, Kosten, Gewinn). VWL (Volkswirtschaftslehre): gesamtwirtschaftliche Perspektive; untersucht die ganze Volkswirtschaft & das Zusammenwirken aller Sektoren (Wirtschaftskreislauf, BIP, Inflation, Arbeitslosigkeit, Konjunktur).",
+    keywords: [
+      { label: "BWL: einzelwirtschaftlich / einzelnes Unternehmen", match: ["einzelwirtschaft", "einzeln", "betrieb", "unternehmen", "frosch"] },
+      { label: "BWL-Beispiele (Kosten, Gewinn, Absatz...)", match: ["gewinn", "kosten", "marketing", "absatz", "produktion", "beschaffung", "finanzier"] },
+      { label: "VWL: gesamtwirtschaftlich / Volkswirtschaft", match: ["gesamtwirtschaft", "volkswirtschaft", "vogel", "sektor"] },
+      { label: "VWL-Beispiele (BIP, Inflation, Arbeitslosigkeit, Kreislauf)", match: ["bip", "inflation", "arbeitslos", "konjunktur", "kreislauf", "wachstum", "steuer"] }
+    ]
+  },
+  {
+    id: "fc11", task: 7, gap: false,
+    q: "Grenzen Sie die Begriffe Bedürfnis, Bedarf und Nachfrage exakt voneinander ab.",
+    hint: "Wunsch → + Kaufkraft → + tatsächliche Kaufhandlung!",
+    model: "Bedürfnis = Wunsch, Mangelempfinden. Bedarf = mit Kaufkraft ausgestattete Summe der Bedürfnisse nach einem bestimmten/konkreten Produkt. Nachfrage = der Teil des Bedarfs, der durch tatsächliche Kaufhandlungen zu Nachfragemenge wird und zu Umsatzerlösen (Zufluss liquider Mittel) führt.",
+    keywords: [
+      { label: "Bedürfnis = Wunsch / Mangelempfinden", match: ["wunsch", "mangelempfind", "mangel"] },
+      { label: "Bedarf = + Kaufkraft + konkretes Produkt", match: ["kaufkraft", "konkret", "bestimmt"] },
+      { label: "Nachfrage = tatsächliche Kaufhandlung", match: ["kaufhandlung", "tatsächlich", "tatsaechlich", "kauf"] },
+      { label: "Umsatzerlöse / liquide Mittel", match: ["umsatzerlös", "umsatz", "liquid", "kasse", "bankkonto"] }
+    ]
+  },
+  {
+    id: "fc12", task: 7, gap: false,
+    q: "Erklären Sie den Grundsatz der Kundenorientierung aus der Mitschrift.",
+    hint: "Wo nimmt die unternehmerische Planung ihren Ursprung?",
+    model: "Nach dem Grundsatz der Kundenorientierung nimmt die unternehmerische Planung ihren Ursprung auf dem Absatzmarkt, um von Anfang an Kundenwünsche in Produktmerkmale umsetzen zu können („Der Kunde ist König“).",
+    keywords: [
+      { label: "unternehmerische Planung", match: ["planung", "planen"] },
+      { label: "Ursprung auf dem Absatzmarkt", match: ["absatzmarkt", "ursprung"] },
+      { label: "Kundenwünsche in Produktmerkmale umsetzen", match: ["kundenwünsch", "kundenwuensch", "produktmerkmal", "könig", "koenig"] }
+    ]
+  },
+  {
+    id: "fc13", task: 7, gap: false,
+    q: "Nennen Sie die drei Formeln für Umsatzerlöse, Kosten und Gewinn.",
+    hint: "Absatz..., Beschaffung..., Differenz...",
+    model: "1. Umsatzerlöse = Absatzmenge × Absatzmarktpreise  |  2. Kosten = Beschaffungsmengen × Beschaffungsmarktpreise  |  3. Gewinn = Umsatzerlöse − Kosten.",
+    keywords: [
+      { label: "Umsatz = Absatzmenge × Absatzmarktpreise", match: ["absatzmenge", "absatzmarktpreis"] },
+      { label: "Kosten = Beschaffungsmengen × Beschaffungsmarktpreise", match: ["beschaffungsmenge", "beschaffungsmarktpreis", "beschaffung"] },
+      { label: "Gewinn = Umsatzerlöse − Kosten", match: ["umsatzerlös", "umsatz", "kosten", "minus", "-"] }
+    ]
+  },
+  {
+    id: "fc14", task: 8, gap: true,
+    q: "Nennen Sie alle 5 Stufen der Bedürfnispyramide nach Maslow von unten (Stufe 1) nach oben (Stufe 5).",
+    hint: "Eselsbrücke: P – S – S – W – S!",
+    model: "1. Physiologische Bedürfnisse (Grundbedürfnisse), 2. Sicherheitsbedürfnisse, 3. Soziale Bedürfnisse, 4. Wertschätzungs-/Anerkennungsbedürfnisse (Ich-Bedürfnisse), 5. Selbstverwirklichungsbedürfnisse.",
+    keywords: [
+      { label: "1. Physiologische / Grundbedürfnisse", match: ["physiolog", "grundbedürfnis", "existenz"] },
+      { label: "2. Sicherheitsbedürfnisse", match: ["sicherheit"] },
+      { label: "3. Soziale Bedürfnisse", match: ["sozial", "zugehörig"] },
+      { label: "4. Wertschätzung / Anerkennung / Ich", match: ["wertschätz", "wertschaetz", "anerkennung", "ich-bedürfnis", "prestige"] },
+      { label: "5. Selbstverwirklichung", match: ["selbstverwirklich"] }
+    ]
+  },
+  {
+    id: "fc15", task: 8, gap: false,
+    q: "Erläutern Sie die Grundannahme Maslows und den positiven Nutzen der Pyramide für Unternehmen (inkl. Brot-Beispiel).",
+    hint: "Wann wird eine höhere Stufe angestrebt? Was sagt das Brot-Beispiel aus?",
+    model: "Erläuterung: Eine höher gelegene Stufe wird erst angestrebt, wenn die Bedürfnisse der darunterliegenden Stufe erfüllt sind. Positiv: Unternehmer erkennen die Bedürfnisstruktur der Kunden und ziehen Konsequenzen für die Vermarktung. Bsp. Brot (Hunger/physiologisch): wird immer gekauft ⇒ sicherer Absatzmarkt, gut planbar, jedoch kein Wachstumsmarkt.",
+    keywords: [
+      { label: "höhere Stufe erst nach Erfüllung der darunterliegenden", match: ["darunter", "erfüllt", "erfuellt", "höher", "hoeher", "erst"] },
+      { label: "Bedürfnisstruktur & Vermarktung", match: ["bedürfnisstruktur", "vermarktung", "marketing", "kunden"] },
+      { label: "Brot: sicherer/planbarer Absatzmarkt, kein Wachstumsmarkt", match: ["brot", "sicher", "planbar", "wachstumsmarkt"] }
+    ]
+  },
+  {
+    id: "fc16", task: 8, gap: false,
+    q: "Nennen Sie die 3 negativen Kritikpunkte an Maslows Bedürfnispyramide UND die Relativierung dieser Kritik.",
+    hint: "Zuordnung, Starrheit (Künstler!), Weltregion – und was ist ein Modell?",
+    model: "Negativ: 1. Zuordnung zu den Ebenen ist individuell/nicht eindeutig. 2. Menschliches Verhalten ist nicht so starr (z. B. 4. Ebene vor 3. Ebene; „Künstler-Beispiel“). 3. Trifft eher für die westliche Welt zu, in globalisierter Wirtschaftswelt nicht allgemein anwendbar. Relativierung: Es ist ein Modell – Modelle dienen der vereinfachenden Darstellung der komplexen Realität zur Erkenntnisgewinnung.",
+    keywords: [
+      { label: "Zuordnung individuell / nicht eindeutig", match: ["individuell", "eindeutig", "zuordnung"] },
+      { label: "nicht so starr / Künstler-Beispiel", match: ["starr", "künstler", "kuenstler", "reihenfolge", "ebene"] },
+      { label: "westliche Welt / nicht global anwendbar", match: ["westlich", "global", "kultur"] },
+      { label: "Relativierung: Modell = vereinfachende Darstellung der Realität zur Erkenntnisgewinnung", match: ["modell", "vereinfach", "realität", "realitaet", "erkenntnis"] }
+    ]
+  },
+  {
+    id: "fc17", task: 9, gap: false,
+    q: "Warum können individuelle Wirtschaftssubjekte zu Wirtschaftssektoren aggregiert werden? Nennen Sie die Gemeinsamkeiten aller 3 Sektoren.",
+    hint: "Haushalte (konsumieren/sparen...), Unternehmen (investieren...), Staat (Infrastruktur...)",
+    model: "Wegen ihrer gleichartigen Funktionen und Ziele: • Haushalte: Endverbraucher konsumieren und sparen (Ziel: Nutzenmaximierung, Gossen'sche Gesetze). • Unternehmen: investieren, finanzieren und produzieren (Ziel: Gewinnmaximierung). • Staat: stellt Infrastruktur bereit (Ziel: höchstmöglicher Wohlstand der Bevölkerung bei Kostendeckung durch Steuereinnahmen).",
+    keywords: [
+      { label: "Haushalte: konsumieren & sparen, Nutzenmaximierung", match: ["konsumier", "sparen", "nutzenmaxim", "gossen"] },
+      { label: "Unternehmen: investieren, finanzieren, produzieren, Gewinnmaximierung", match: ["investier", "finanzier", "produzier", "gewinnmaxim"] },
+      { label: "Staat: Infrastruktur, Wohlstand, Steuereinnahmen", match: ["infrastruktur", "wohlstand", "steuer", "kostendeck"] }
+    ]
+  },
+  {
+    id: "fc18", task: 9, gap: false,
+    q: "Nennen Sie jeweils mindestens 3 Beispiele für „Staatliche Behörden“ und für „Infrastruktur“ aus den Anmerkungen.",
+    hint: "Finanzamt, Polizei... / Straßen, Schulen, Rechtssicherheit...",
+    model: "Behörden: Finanzämter, Polizei, Verteidigung, Ordnungsamt, Bezirksamt, Kindergeldkasse, öffentliche Schulen & Hochschulen. Infrastruktur: Verkehrswege/Straßen, Schulen, öffentliche Ordnung, Rechtssicherheit durch Rechtspflege, Krankenhäuser/Pflegeeinrichtungen, Landtag/Bundestag, Ministerien.",
+    keywords: [
+      { label: "Behörden (Finanzamt, Polizei, Ordnungsamt...)", match: ["finanzamt", "finanzämt", "polizei", "ordnungsamt", "bezirksamt", "kindergeld", "verteidigung"] },
+      { label: "Infrastruktur (Straßen, Schulen, Rechtssicherheit, Krankenhäuser...)", match: ["straße", "strasse", "verkehr", "schule", "rechtssicherheit", "krankenhaus", "krankenhäus", "ordnung", "minister"] }
+    ]
+  },
+  {
+    id: "fc19", task: 10, gap: false,
+    q: "Aufgabe 10a (Gütermarkt): Beschreiben Sie den Güterstrom von Unternehmen zu Haushalten und den entgegenfließenden Geldstrom.",
+    hint: "Beide Perspektiven nennen! Fertigerzeugnisse/Waren → ... und Konsumausgaben → ...",
+    model: "Güterstrom (U → H): Fertigerzeugnisse und Waren verlassen die Unternehmen (Fertigungs- & Handelsbetriebe) und erreichen die Haushalte als Konsumgüter. Geldstrom (H → U): Aus Sicht der Haushalte sind die liquiden Mittel Konsumausgaben, die bei den Unternehmen als Umsatzerlöse zufließen.",
+    keywords: [
+      { label: "Fertigerzeugnisse & Waren → Konsumgüter", match: ["fertigerzeugnis", "waren", "konsumgüter", "konsumgueter"] },
+      { label: "Konsumausgaben (Sicht Haushalte)", match: ["konsumausgab"] },
+      { label: "Umsatzerlöse (Sicht Unternehmen)", match: ["umsatzerlös", "umsatzerloes", "umsatz"] }
+    ]
+  },
+  {
+    id: "fc20", task: 10, gap: false,
+    q: "Aufgabe 10a (Arbeitsmarkt): Beschreiben Sie den Güterstrom von Haushalten zu Unternehmen und den entgegenfließenden Geldstrom.",
+    hint: "Immaterielles Wirtschaftsgut! Und Lohnaufwand vs. ...",
+    model: "Güterstrom (H → U): Haushalte stellen über den Arbeitsmarkt ihre Arbeitskraft (immaterielles Wirtschaftsgut) zur Verfügung; Unternehmen beschaffen den Produktionsfaktor „Arbeit“. Geldstrom (U → H): Aus Sicht der Unternehmen wird Lohnaufwand gezahlt, der bei den Haushalten als Haushaltseinkommen zufließt.",
+    keywords: [
+      { label: "Arbeitskraft / Produktionsfaktor Arbeit", match: ["arbeitskraft", "arbeit", "arbeitsmarkt", "immateriell"] },
+      { label: "Lohnaufwand (Sicht Unternehmen)", match: ["lohnaufwand", "lohn", "löhne"] },
+      { label: "Haushaltseinkommen (Sicht Haushalte)", match: ["haushaltseinkommen", "einkommen"] }
+    ]
+  },
+  {
+    id: "fc21", task: 10, gap: true,
+    q: "Aufgabe 10b (Unternehmen ↔ Staat): Erläutern Sie die entgegenfließenden Güter- und Geldströme (Steuern, Infrastruktur, Aufträge, Subventionen).",
+    hint: "1. Infrastruktur ↔ Steuern | 2. Öffentliche Aufträge ↔ Staatsausgaben/Umsatz | 3. Einseitiger Geldstrom!",
+    model: "1. Güterstrom (Staat → U): Infrastruktur & Rechtssicherheit; Geldstrom (U → Staat): Steuern (Gewerbe-/Körperschaftsteuer) = Steuereinnahmen. 2. Güterstrom (U → Staat): Lieferung von Gütern/Dienstleistungen (öffentliche Aufträge); Geldstrom (Staat → U): Staatsausgaben = Umsatzerlöse. 3. Einseitiger Geldstrom (Staat → U): Subventionen (Finanzhilfen).",
+    keywords: [
+      { label: "Infrastruktur / öffentliche Leistungen (Staat → U)", match: ["infrastruktur", "rechtssicherheit", "öffentlich", "straß"] },
+      { label: "Steuern / Steuereinnahmen (U → Staat)", match: ["steuer"] },
+      { label: "Güter/Aufträge ↔ Staatsausgaben/Umsatzerlöse", match: ["auftrag", "aufträg", "güter", "dienstleist", "staatsausgab", "umsatz"] },
+      { label: "Subventionen (Staat → U)", match: ["subvention", "förder"] }
+    ]
+  },
+  {
+    id: "fc22", task: 10, gap: true,
+    q: "Aufgabe 10c (Haushalte ↔ Staat): Erläutern Sie die entgegenfließenden Güter- und Geldströme (Steuern, Infrastruktur, öff. Dienst, Transfers).",
+    hint: "1. Infrastruktur ↔ Steuern | 2. Arbeit beim Staat ↔ Gehälter | 3. Einseitiger Geldstrom (Kindergeld...)",
+    model: "1. Güterstrom (Staat → H): Infrastruktur/öffentliche Leistungen (Schulen, Straßen, Polizei); Geldstrom (H → Staat): Steuern (Einkommen-/Lohnsteuer) & Abgaben = Steuereinnahmen. 2. Güterstrom (H → Staat): Arbeitskraft im öffentlichen Dienst (Lehrer, Polizei); Geldstrom (Staat → H): Löhne/Gehälter = Haushaltseinkommen. 3. Einseitiger Geldstrom (Staat → H): Transferzahlungen (Kindergeld, BAföG, Bürgergeld).",
+    keywords: [
+      { label: "Infrastruktur / Schulen / Polizei (Staat → H)", match: ["infrastruktur", "schule", "polizei", "öffentlich", "straß"] },
+      { label: "Steuern / Abgaben (H → Staat)", match: ["steuer", "abgab"] },
+      { label: "Arbeitskraft ↔ Gehälter/Einkommen (öff. Dienst)", match: ["arbeitskraft", "arbeit", "lehrer", "beamte", "gehalt", "gehälter", "lohn", "einkommen"] },
+      { label: "Transferzahlungen (Kindergeld, BAföG, Bürgergeld)", match: ["transfer", "kindergeld", "bafög", "bürgergeld", "sozialleistung"] }
+    ]
+  },
+  {
+    id: "fc23", task: 7, gap: false,
+    q: "Rechen-Check (Aufgabe 7): Ein Händler kauft 200 Jacken zu je 40 € ein und verkauft 180 Jacken für je 75 €. Wie hoch sind Umsatzerlöse, Kosten und Gewinn?",
+    hint: "Umsatz = 180 × 75 | Kosten = 200 × 40 | Gewinn = Umsatz − Kosten",
+    model: "Umsatzerlöse = 180 × 75 € = 13.500 €. Kosten = 200 × 40 € = 8.000 €. Gewinn = 13.500 € − 8.000 € = 5.500 €.",
+    keywords: [
+      { label: "Umsatzerlöse = 13.500 €", match: ["13500", "13.500"] },
+      { label: "Kosten = 8.000 €", match: ["8000", "8.000"] },
+      { label: "Gewinn = 5.500 €", match: ["5500", "5.500"] }
+    ]
+  },
+  {
+    id: "fc24", task: 8, gap: true,
+    q: "Wie unterscheidet man bei Maslow zwischen Defizitbedürfnissen und Wachstumsbedürfnissen?",
+    hint: "Welche Stufen sind sättigbar (1–4), welche nie ganz (5)?",
+    model: "Stufen 1–4 (physiologische, Sicherheits-, soziale und Wertschätzungsbedürfnisse) sind Defizitbedürfnisse (Mangelbedürfnisse): Sie entstehen durch einen Mangel und sind grundsätzlich sättigbar. Stufe 5 (Selbstverwirklichung) ist ein Wachstumsbedürfnis: Es wird nie vollständig gesättigt.",
+    keywords: [
+      { label: "Defizitbedürfnisse (Stufen 1–4 / sättigbar)", match: ["defizit", "mangel", "1-4", "1–4", "sättig"] },
+      { label: "Wachstumsbedürfnis (Stufe 5 / Selbstverwirklichung)", match: ["wachstum", "selbstverwirklich", "5", "nie"] }
+    ]
+  },
+  {
+    id: "fc25", task: 5, gap: true,
+    q: "Nennen Sie je ein Beispiel für das Minimalprinzip und das Maximalprinzip aus Sicht eines Unternehmens.",
+    hint: "Einmal Stückzahl fest (Kosten runter), einmal Budget fest (Output rauf)!",
+    model: "Minimalprinzip: Eine vorgegebene Stückzahl (z. B. 500 Fahrräder) mit möglichst geringen Produktionskosten herstellen. Maximalprinzip: Mit einem festen Budget (z. B. 20.000 € Werbebudget) den größtmöglichen Umsatz / möglichst viele Neukunden erzielen.",
+    keywords: [
+      { label: "Minimal: feste Menge/Ziel + geringe Kosten", match: ["stück", "menge", "ziel", "kosten", "gering", "minimal"] },
+      { label: "Maximal: festes Budget/Mittel + maximaler Umsatz/Output", match: ["budget", "mittel", "maximal", "umsatz", "kunden", "output", "möglichst viel"] }
+    ]
+  },
+  {
+    id: "fc26", task: 10, gap: false,
+    q: "Wie lautet der Grundsatz für die Richtung von Güter- und Geldströmen im Wirtschaftskreislauf? Warum ist „Arbeitskraft“ Teil des Güterstroms?",
+    hint: "Entgegenfließend! Und welche Art von Wirtschaftsgut ist Arbeitskraft?",
+    model: "Güterströme und Geldströme fließen immer einander entgegen. Arbeitskraft zählt zum Güterstrom, weil sie ein immaterielles Wirtschaftsgut ist (Produktionsfaktor „Arbeit“), das über den Arbeitsmarkt getauscht wird.",
+    keywords: [
+      { label: "fließen einander entgegen", match: ["entgegen"] },
+      { label: "immaterielles Wirtschaftsgut / Produktionsfaktor Arbeit", match: ["immateriell", "wirtschaftsgut", "produktionsfaktor"] }
+    ]
+  }
+];
+
+// ============================================================================
+// 3. CLOZE TYPING DRILLS (EXAKTE BEGRIFFE EINTIPPEN)
+// ============================================================================
+const CLOZE_BLOCKS = [
+  {
+    title: "Block 1: Wirtschaften, Knappheit & Wirtschaftssubjekte (A1–A3)",
+    items: [
+      { text: "Wirtschaften ist das zielorientierte Entscheiden über die Verwendung {0} Mittel nach dem {1} Prinzip.", answers: [["knapper", "knappe"], ["ökonomischen", "oekonomischen", "wirtschaftlichen"]] },
+      { text: "Die Notwendigkeit des Wirtschaftens entsteht, weil nahezu {0} Bedürfnissen {1} Mittel gegenüberstehen.", answers: [["unbegrenzten", "unbegrenzte"], ["begrenzte", "knappe"]] },
+      { text: "Die drei Wirtschaftssubjekte sind Unternehmen, Private {0} und der {1} (Gebietskörperschaften: Bund, Länder, {2}).", answers: [["Haushalte"], ["Staat"], ["Gemeinden"]] }
+    ]
+  },
+  {
+    title: "Block 2: Ziele, Ökonomisches Prinzip & BWL/VWL (A4–A6)",
+    items: [
+      { text: "Das Oberziel von Unternehmen ist die {0}, das Ziel privater Haushalte ist die {1}.", answers: [["Gewinnmaximierung"], ["Nutzenmaximierung"]] },
+      { text: "Beim {0} wird ein festes Ziel mit möglichst geringem Mitteleinsatz erreicht; beim {1} wird mit festen Mitteln ein möglichst großes Ergebnis erzielt.", answers: [["Minimalprinzip"], ["Maximalprinzip"]] },
+      { text: "Die {0} betrachtet einzelne Betriebe (einzelwirtschaftlich), während die {1} die gesamte Volkswirtschaft untersucht (gesamtwirtschaftlich).", answers: [["BWL", "Betriebswirtschaftslehre"], ["VWL", "Volkswirtschaftslehre"]] }
+    ]
+  },
+  {
+    title: "Block 3: Bedürfnis, Bedarf, Nachfrage & Formeln (A7)",
+    items: [
+      { text: "Ein {0} ist ein Wunsch bzw. Mangelempfinden. Mit {1} ausgestattet wird es zum {2}.", answers: [["Bedürfnis", "Beduerfnis"], ["Kaufkraft"], ["Bedarf"]] },
+      { text: "Erst durch tatsächliche Kaufhandlungen wird aus dem Bedarf die {0}, die zu {1} führt.", answers: [["Nachfrage"], ["Umsatzerlösen", "Umsatzerloesen", "Umsatz"]] },
+      { text: "Umsatzerlöse = {0} × Absatzmarktpreise  |  Gewinn = {1} − {2}.", answers: [["Absatzmenge"], ["Umsatzerlöse", "Umsatzerloese", "Umsatz"], ["Kosten"]] }
+    ]
+  },
+  {
+    title: "Block 4: Maslow-Pyramide & Relativierung (A8)",
+    items: [
+      { text: "Die 5 Stufen von unten nach oben: 1. {0} Bedürfnisse, 2. {1}, 3. Soziale Bedürfnisse, 4. {2}, 5. {3}.", answers: [["Physiologische", "Grund"], ["Sicherheitsbedürfnisse", "Sicherheit"], ["Wertschätzungsbedürfnisse", "Wertschätzung", "Anerkennung", "Anerkennungsbedürfnisse"], ["Selbstverwirklichung", "Selbstverwirklichungsbedürfnisse"]] },
+      { text: "Relativierung der Kritik: Die Pyramide ist ein {0}. Modelle dienen der {1} Darstellung der komplexen Realität zur {2}.", answers: [["Modell"], ["vereinfachenden", "vereinfachten"], ["Erkenntnisgewinnung"]] }
+    ]
+  },
+  {
+    title: "Block 5: Wirtschaftskreislauf – Güter- & Geldströme (A9–A10)",
+    items: [
+      { text: "Im Wirtschaftskreislauf fließen Güterströme und Geldströme einander {0}.", answers: [["entgegen"]] },
+      { text: "Haushalte liefern über den Arbeitsmarkt ihre {0} (Produktionsfaktor Arbeit) und erhalten dafür von den Unternehmen {1}, was bei den Haushalten als {2} zufließt.", answers: [["Arbeitskraft"], ["Lohnaufwand", "Lohn", "Löhne"], ["Haushaltseinkommen", "Einkommen"]] },
+      { text: "Für Konsumgüter zahlen Haushalte {0}, die bei Unternehmen als {1} ankommen. Der Staat zahlt Unternehmen einseitig {2} und Haushalten einseitig {3}.", answers: [["Konsumausgaben"], ["Umsatzerlöse", "Umsatz"], ["Subventionen"], ["Transferzahlungen", "Transfers"]] }
+    ]
+  }
+];
+
+// ============================================================================
+// 4. QUIZ QUESTIONS (24 Klausurfragen & Fallen)
+// ============================================================================
+const QUIZ_QUESTIONS = [
+  {
+    id: "q1", task: 1, type: "Definition",
+    prompt: "Welche Formulierung bestimmt den Begriff „Wirtschaften“ am genauesten?",
+    opts: [
+      "Möglichst viel Geld auf dem Bankkonto anzusammeln.",
+      "Zielorientiertes Entscheiden über die Verwendung knapper Mittel nach dem ökonomischen Prinzip.",
+      "Das Herstellen von Konsumgütern in Industriebetrieben.",
+      "Die staatliche Verteilung von Steuereinnahmen an Unternehmen."
+    ],
+    ans: 1,
+    exp: "Exakte Definition aus Aufgabe 1: Zielorientiertes Entscheiden über die Verwendung knapper Mittel/Ressourcen nach dem ökonomischen/wirtschaftlichen Prinzip."
+  },
+  {
+    id: "q2", task: 2, type: "Grundproblem",
+    prompt: "Warum ist Wirtschaften überhaupt notwendig?",
+    opts: [
+      "Weil Unternehmen gesetzlich zur Gewinnmaximierung verpflichtet sind.",
+      "Weil nahezu unbegrenzten Bedürfnissen begrenzte Mittel (Geld, Zeit, natürliche Ressourcen) gegenüberstehen.",
+      "Weil der Staat Steuern erheben muss.",
+      "Weil Menschen nur physiologische Bedürfnisse haben."
+    ],
+    ans: 1,
+    exp: "Knappheitsproblem (Aufgabe 2): Unbegrenzte Wünsche treffen auf knappe Ressourcen (Geld/liquide Mittel, Zeit/Arbeitszeit, natürliche Ressourcen)."
+  },
+  {
+    id: "q3", task: 3, type: "Wissen",
+    prompt: "Welche drei Gebietskörperschaften bilden das Wirtschaftssubjekt „Staat“?",
+    opts: [
+      "Bundestag, Bundesrat und Bundesverfassungsgericht",
+      "Bund, Länder und Gemeinden",
+      "Finanzamt, Polizei und Bundeswehr",
+      "Haushalte, Unternehmen und Banken"
+    ],
+    ans: 1,
+    exp: "Aus Aufgabe 3: Staat = Gebietskörperschaften Bund, Länder, Gemeinden."
+  },
+  {
+    id: "q4", task: 4, type: "Kausalkette",
+    prompt: "Was gehört laut Mitschrift NICHT zu den Zwischenzielen von Unternehmen?",
+    opts: [
+      "Steigerung der Produkt- und Dienstleistungsqualität → Kundenzufriedenheit → Neukundengewinnung",
+      "Aufbau eines guten Kundenstamms (zahlungsfähige und zahlungsbereite Kunden)",
+      "Kostensenkung auf der Beschaffungsseite",
+      "Vollständige Kostendeckung durch Steuereinnahmen"
+    ],
+    ans: 3,
+    exp: "Kostendeckung durch Steuereinnahmen ist das Merkmal des Staates, nicht von Unternehmen!"
+  },
+  {
+    id: "q5", task: 4, type: "Fachbegriff",
+    prompt: "Wie bezeichnet die Mitschrift den „guten Ruf in der Branche“, der durch Kundenzufriedenheit und positives Empfehlungsverhalten entsteht?",
+    opts: [
+      "Umsatzerlös",
+      "Immaterieller Firmenwert",
+      "Liquiditätsreserve",
+      "Transferleistung"
+    ],
+    ans: 1,
+    exp: "Guter Ruf in der Branche = immaterieller Firmenwert ⇒ führt zur Neukundengewinnung!"
+  },
+  {
+    id: "q6", task: 5, type: "Klausurfalle!",
+    prompt: "Ein Schüler sagt in der Klausur: „Ökonomisch handeln bedeutet, mit minimalen Mitteln das maximale Ergebnis zu erreichen.“ Wie ist diese Aussage zu bewerten?",
+    opts: [
+      "Richtig, das ist die Definition des Optimalprinzips.",
+      "Falsch! Das ist logisch unmöglich – entweder ist das Ziel fest (Minimalprinzip) ODER die Mittel sind fest (Maximalprinzip).",
+      "Richtig, aber nur für Unternehmen, nicht für Haushalte.",
+      "Falsch, es gilt nur in der VWL."
+    ],
+    ans: 1,
+    exp: "Klassische Klausurfalle! Man kann nicht gleichzeitig Input minimieren UND Output maximieren (0 € Einsatz → 0 Ergebnis). Eine Größe muss vorgegeben sein."
+  },
+  {
+    id: "q7", task: 5, type: "Praxisbeispiel",
+    prompt: "Ein Unternehmen soll genau 500 Laptops produzieren und versucht, dabei die Material- und Energiekosten so niedrig wie möglich zu halten. Welches Prinzip liegt vor?",
+    opts: [
+      "Maximalprinzip",
+      "Minimalprinzip",
+      "Kundenorientierungsprinzip",
+      "Gossen'sches Prinzip"
+    ],
+    ans: 1,
+    exp: "Das Ziel steht fest (500 Laptops) und die Mittel (Kosten) werden minimiert ⇒ Minimalprinzip!"
+  },
+  {
+    id: "q8", task: 5, type: "Praxisbeispiel",
+    prompt: "Du hast genau 30 Minuten Zeit vor der Klausur und willst damit möglichst viel Prüfungsstoff sicher beherrschen. Welches Prinzip wendest du gerade an?",
+    opts: [
+      "Minimalprinzip",
+      "Maximalprinzip",
+      "Sparprinzip",
+      "Kostendeckungsprinzip"
+    ],
+    ans: 1,
+    exp: "Die Mittel sind fest vorgegeben (30 Minuten Zeit) und das Ergebnis (Wissen/Note) soll maximiert werden ⇒ Maximalprinzip! 💪"
+  },
+  {
+    id: "q9", task: 6, type: "BWL vs. VWL",
+    prompt: "Welche der folgenden Fragestellungen gehört eindeutig zur BWL (Betriebswirtschaftslehre)?",
+    opts: [
+      "Wie entwickelt sich die Inflationsrate in Deutschland?",
+      "Wie hoch ist die Arbeitslosenquote im Vergleich zum Vorjahr?",
+      "Soll unsere Bäckerei einen neuen Backofen kaufen oder leasen, um die Stückkosten zu senken?",
+      "Wie wirkt sich eine Mehrwertsteuererhöhung auf das Bruttoinlandsprodukt (BIP) aus?"
+    ],
+    ans: 2,
+    exp: "BWL = einzelwirtschaftliche Sicht eines einzelnen Betriebs (Investition, Stückkosten). Inflation, Arbeitslosenquote und BIP sind VWL!"
+  },
+  {
+    id: "q10", task: 6, type: "BWL vs. VWL",
+    prompt: "Welche Aussage beschreibt die VWL (Volkswirtschaftslehre) zutreffend?",
+    opts: [
+      "Sie betrachtet aus der „Froschperspektive“ die interne Organisation eines Betriebs.",
+      "Sie untersucht aus gesamtwirtschaftlicher Sicht das Zusammenwirken aller Wirtschaftssektoren (z. B. Wirtschaftskreislauf, Inflation, Konjunktur).",
+      "Sie beschäftigt sich ausschließlich mit dem Rechnungswesen von Aktiengesellschaften.",
+      "Sie hat keinerlei Zusammenhang mit knappen Ressourcen."
+    ],
+    ans: 1,
+    exp: "VWL = Gesamtwirtschaft („Vogelperspektive“): Wirtschaftskreislauf, Sektoren, Wachstum, Inflation, Arbeitslosigkeit, Konjunktur."
+  },
+  {
+    id: "q11", task: 7, type: "Abgrenzung",
+    prompt: "Lena hat Durst (1), hat 3 € in der Tasche für eine bestimmte Apfelschorle (2) und kauft die Flasche tatsächlich am Kiosk (3). Welche Reihenfolge passt?",
+    opts: [
+      "(1) Bedarf → (2) Bedürfnis → (3) Nachfrage",
+      "(1) Bedürfnis → (2) Bedarf → (3) Nachfrage",
+      "(1) Nachfrage → (2) Bedürfnis → (3) Bedarf",
+      "(1) Bedürfnis → (2) Nachfrage → (3) Bedarf"
+    ],
+    ans: 1,
+    exp: "Durst = Mangelempfinden (Bedürfnis); + Kaufkraft für konkretes Produkt = Bedarf; + tatsächliche Kaufhandlung = Nachfrage!"
+  },
+  {
+    id: "q12", task: 7, type: "Kundenorientierung",
+    prompt: "Wo nimmt nach dem Grundsatz der Kundenorientierung die unternehmerische Planung ihren Ursprung?",
+    opts: [
+      "Auf dem Beschaffungsmarkt",
+      "In der Buchhaltung",
+      "Auf dem Absatzmarkt",
+      "Beim Finanzamt"
+    ],
+    ans: 2,
+    exp: "Exakte Mitschrift: Die unternehmerische Planung nimmt ihren Ursprung auf dem Absatzmarkt, um Kundenwünsche von Anfang an in Produktmerkmale umzusetzen („Der Kunde ist König“)."
+  },
+  {
+    id: "q13", task: 7, type: "Rechenaufgabe",
+    prompt: "Ein Betrieb beschafft 100 Einheiten Material zu je 12 € und verkauft 80 Endprodukte zu je 25 €. Wie hoch ist der Gewinn?",
+    opts: [
+      "800 €",
+      "1.200 €",
+      "2.000 €",
+      "1.300 €"
+    ],
+    ans: 0,
+    exp: "Umsatzerlöse = 80 × 25 € = 2.000 €. Kosten = 100 × 12 € = 1.200 €. Gewinn = 2.000 € − 1.200 € = 800 €."
+  },
+  {
+    id: "q14", task: 8, type: "Maslow-Stufen",
+    prompt: "Auf welcher Stufe der Maslow-Pyramide stehen „sicherer Arbeitsplatz, Versicherungen und Rechtssicherheit“?",
+    opts: [
+      "1. Stufe (Physiologische Bedürfnisse)",
+      "2. Stufe (Sicherheitsbedürfnisse)",
+      "3. Stufe (Soziale Bedürfnisse)",
+      "4. Stufe (Wertschätzungsbedürfnisse)"
+    ],
+    ans: 1,
+    exp: "Stufe 2 = Sicherheitsbedürfnisse (Schutz vor Gefahren, Arbeitsplatzsicherheit, Vorsorge, Rechtssicherheit)."
+  },
+  {
+    id: "q15", task: 8, type: "Maslow-Kritik",
+    prompt: "Was zeigt das „Brot-Beispiel“ in der positiven Würdigung der Maslow-Pyramide?",
+    opts: [
+      "Brot deckt ein Selbstverwirklichungsbedürfnis und ist daher ein riesiger Wachstumsmarkt.",
+      "Brot stillt das physiologische Bedürfnis Hunger ⇒ wird immer gekauft ⇒ sicherer, gut planbarer Absatzmarkt, aber kein Wachstumsmarkt.",
+      "Brot wird nur in der westlichen Welt gekauft.",
+      "Brot zeigt, dass Maslows Modell völlig nutzlos ist."
+    ],
+    ans: 1,
+    exp: "Exakt aus der Mitschrift! Brot = physiologisches Bedürfnis ⇒ sicherer Absatzmarkt, gut planbar, jedoch kein Wachstumsmarkt."
+  },
+  {
+    id: "q16", task: 8, type: "Maslow-Kritik",
+    prompt: "Wofür steht das „Künstler-Beispiel“ in der negativen Kritik an Maslow?",
+    opts: [
+      "Künstler haben mehr Kaufkraft als andere Haushalte.",
+      "Menschliches Verhalten ist nicht so starr: Menschen können höhere Stufen (z. B. 4./5. Ebene) anstreben, obwohl niedrigere noch nicht erfüllt sind.",
+      "Kunst gehört immer zu den physiologischen Bedürfnissen.",
+      "Modelle sind immer exakt wie die Realität."
+    ],
+    ans: 1,
+    exp: "Der „hungernde Künstler“ strebt nach Anerkennung/Selbstverwirklichung, obwohl Grundbedürfnisse kaum erfüllt sind ⇒ Widerlegung der starren Stufenfolge."
+  },
+  {
+    id: "q17", task: 8, type: "Klausur-Bonus!",
+    prompt: "Wie relativiert man die negative Kritik an der Bedürfnispyramide nach Maslow?",
+    opts: [
+      "Man sagt, dass Maslow sich einfach geirrt hat.",
+      "Die Pyramide ist ein Modell – Modelle dienen der vereinfachenden Darstellung der komplexen Realität zur Erkenntnisgewinnung.",
+      "Die Pyramide gilt nur für Unternehmen, nicht für Menschen.",
+      "Man streicht einfach die 5. Stufe."
+    ],
+    ans: 1,
+    exp: "Super wichtiger Satz aus der Mitschrift (und gleichzeitig Antwort auf den Sinn von Modellen!): Modelle vereinfachen die komplexe Realität zur Erkenntnisgewinnung."
+  },
+  {
+    id: "q18", task: 9, type: "Aggregation",
+    prompt: "Welche Kombination von Funktionen und Ziel ordnet die Mitschrift dem „Unternehmenssektor“ zu?",
+    opts: [
+      "Konsumieren & sparen – Ziel: Nutzenmaximierung",
+      "Investieren, finanzieren & produzieren – Ziel: Gewinnmaximierung",
+      "Infrastruktur bereitstellen – Ziel: Wohlstand der Bevölkerung",
+      "Steuern erheben & sparen – Ziel: Kostendeckung"
+    ],
+    ans: 1,
+    exp: "Aus Aufgabe 9: Individuelle Unternehmen investieren, finanzieren und produzieren mit dem Ziel der Gewinnmaximierung."
+  },
+  {
+    id: "q19", task: 9, type: "Wissen",
+    prompt: "Was gehört laut Anmerkungen in Aufgabe 9 zur staatlichen „Infrastruktur“?",
+    opts: [
+      "Nur Autobahnen und Eisenbahnen",
+      "Verkehrswege/Straßen, Schulen, öffentliche Ordnung, Rechtssicherheit durch Rechtspflege, Krankenhäuser/Pflegeeinrichtungen, Parlamente & Ministerien",
+      "Private Einkaufszentren und Supermärkte",
+      "Aktiengesellschaften und Handwerksbetriebe"
+    ],
+    ans: 1,
+    exp: "Infrastruktur umfasst nicht nur Straßen, sondern auch Schulen, Rechtspflege/Rechtssicherheit, Krankenhäuser, öffentliche Ordnung und demokratische Institutionen!"
+  },
+  {
+    id: "q20", task: 10, type: "Aufgabe 10a",
+    prompt: "Im einfachen Wirtschaftskreislauf fließt ein Geldstrom von den Unternehmen zu den Haushalten. Wie heißt dieser Geldstrom aus beiden Perspektiven?",
+    opts: [
+      "Unternehmen: Umsatzerlöse → Haushalte: Konsumausgaben",
+      "Unternehmen: Lohnaufwand → Haushalte: Haushaltseinkommen",
+      "Unternehmen: Steuern → Haushalte: Transferzahlungen",
+      "Unternehmen: Beschaffungskosten → Haushalte: Gewinn"
+    ],
+    ans: 1,
+    exp: "Exakte Mitschrift (10a): Aus Sicht der Unternehmen wird Lohnaufwand gezahlt, der bei den Haushalten als Haushaltseinkommen zufließt."
+  },
+  {
+    id: "q21", task: 10, type: "Aufgabe 10a",
+    prompt: "Welcher Güterstrom fließt dem Geldstrom „Konsumausgaben → Umsatzerlöse“ direkt entgegen?",
+    opts: [
+      "Arbeitskraft der Haushalte an die Unternehmen",
+      "Fertigerzeugnisse und Waren von den Unternehmen an die Haushalte (als Konsumgüter)",
+      "Steuern von den Haushalten an den Staat",
+      "Subventionen vom Staat an die Unternehmen"
+    ],
+    ans: 1,
+    exp: "Güterstrom U → H: Fertigerzeugnisse und Waren erreichen Haushalte als Konsumgüter. Entgegenfließender Geldstrom H → U: Konsumausgaben → Umsatzerlöse."
+  },
+  {
+    id: "q22", task: 10, type: "Aufgabe 10b",
+    prompt: "Wie nennt man Geldzahlungen des Staates an Unternehmen OHNE direkte Gegenleistung (z. B. Fördermittel für erneuerbare Energien)?",
+    opts: [
+      "Transferzahlungen",
+      "Subventionen",
+      "Lohnaufwand",
+      "Konsumausgaben"
+    ],
+    ans: 1,
+    exp: "Merkhilfe: Staat → Unternehmen (ohne direkte Gegenleistung) = Subventionen. Staat → Haushalte (ohne direkte Gegenleistung) = Transferzahlungen!"
+  },
+  {
+    id: "q23", task: 10, type: "Aufgabe 10c",
+    prompt: "Kindergeld, BAföG und Bürgergeld fließen vom Staat an private Haushalte. Wie heißen diese Zahlungen im Wirtschaftskreislauf?",
+    opts: [
+      "Subventionen",
+      "Umsatzerlöse",
+      "Transferzahlungen",
+      "Lohnaufwand"
+    ],
+    ans: 2,
+    exp: "Geldleistungen des Staates an private Haushalte ohne direkte wirtschaftliche Gegenleistung heißen Transferzahlungen."
+  },
+  {
+    id: "q24", task: 10, type: "Aufgabe 10c",
+    prompt: "Eine Lehrerin arbeitet an einer öffentlichen Schule. Welcher Güter- und welcher Geldstrom liegt zwischen Haushalt und Staat vor?",
+    opts: [
+      "Güterstrom: Staat → Haushalt (Arbeitskraft); Geldstrom: Haushalt → Staat (Steuern)",
+      "Güterstrom: Haushalt → Staat (Arbeitskraft); Geldstrom: Staat → Haushalt (Gehalt / Haushaltseinkommen)",
+      "Nur ein einseitiger Geldstrom (Transferzahlung)",
+      "Güterstrom: Unternehmen → Staat (Konsumgüter)"
+    ],
+    ans: 1,
+    exp: "Der Haushalt stellt dem Staat seine Arbeitskraft zur Verfügung (Güterstrom H → Staat), im Gegenzug zahlt der Staat Gehalt/Bezüge (Geldstrom Staat → H)."
+  }
+];
+
+// ============================================================================
+// 5. SORTIER-SPRINT DECKS (VISUAL TAB)
+// ============================================================================
+const SORT_DECKS = {
+  prinzip: {
+    cats: ["Minimalprinzip", "Maximalprinzip", "Unmöglich (Falle!)"],
+    items: [
+      { text: "Mit einem festen Budget von 300 € möglichst viele gute Möbel für das Zimmer kaufen.", ans: 1, exp: "Mittel (300 €) sind fest → Ergebnis maximieren = Maximalprinzip." },
+      { text: "Genau 2.000 Brötchen mit möglichst geringem Strom- und Mehlverbrauch backen.", ans: 0, exp: "Ziel (2.000 Brötchen) ist fest → Mitteleinsatz minimieren = Minimalprinzip." },
+      { text: "Mit möglichst wenig Lernzeit die absolut höchste Punktzahl erreichen.", ans: 2, exp: "Klausurfalle! Beide Größen gleichzeitig optimieren ist unlogisch/unmöglich." },
+      { text: "Eine festgelegte Strecke von Berlin nach Hamburg mit möglichst wenig Benzin fahren.", ans: 0, exp: "Ziel (Berlin–Hamburg) steht fest → Benzin minimieren = Minimalprinzip." },
+      { text: "Mit einer Tankfüllung (50 Liter) eine möglichst weite Strecke fahren.", ans: 1, exp: "Mittel (50 Liter) stehen fest → Strecke maximieren = Maximalprinzip." },
+      { text: "Der Staat baut eine genau geplante Grundschule über öffentliche Ausschreibungen so günstig wie möglich.", ans: 0, exp: "Festes Ziel (Grundschule) + möglichst geringe Steuergelder = Minimalprinzip." },
+      { text: "Ein Unternehmen nutzt ein festes Werbebudget von 15.000 €, um möglichst viele Neukunden zu gewinnen.", ans: 1, exp: "Festes Budget (15.000 €) + möglichst viele Kunden = Maximalprinzip." }
+    ]
+  },
+  bwlvwl: {
+    cats: ["BWL (Einzelwirtschaft)", "VWL (Gesamtwirtschaft)"],
+    items: [
+      { text: "Preiskalkulation für ein neues Produkt der Firma Muster GmbH.", ans: 0, exp: "Entscheidung eines einzelnen Unternehmens = BWL." },
+      { text: "Entwicklung der Inflationsrate und Kaufkraft in Deutschland.", ans: 1, exp: "Gesamtwirtschaftliches Preisniveau = VWL." },
+      { text: "Erstellung des Modells „Erweiterter Wirtschaftskreislauf“.", ans: 1, exp: "Zusammenwirken aller Wirtschaftssektoren = VWL." },
+      { text: "Entscheidung über neue Mitarbeiter und Schichtpläne in einem Lager.", ans: 0, exp: "Interne Personalplanung eines Betriebs = BWL." },
+      { text: "Analyse von Konjunkturschwankungen und Arbeitslosigkeit im Euroraum.", ans: 1, exp: "Gesamtwirtschaftliche Entwicklung = VWL." },
+      { text: "Auswahl des günstigsten Lieferanten für Rohstoffe im Einkauf.", ans: 0, exp: "Beschaffung eines einzelnen Betriebs = BWL." }
+    ]
+  },
+  bbn: {
+    cats: ["Bedürfnis", "Bedarf", "Nachfrage"],
+    items: [
+      { text: "Tom hat starken Hunger und Lust auf etwas Warmes.", ans: 0, exp: "Reines Mangelempfinden / Wunsch = Bedürfnis." },
+      { text: "Tom hat 12 € dabei und möchte genau eine Pizza Margherita aus der Pizzeria nebenan.", ans: 1, exp: "Konkretes Produkt + Kaufkraft = Bedarf (noch nicht gekauft!)." },
+      { text: "Tom bestellt und bezahlt die Pizza Margherita für 11 € an der Kasse.", ans: 2, exp: "Tatsächliche Kaufhandlung → Umsatzerlös = Nachfrage!" },
+      { text: "Ein Teenager träumt von einem Sportwagen, hat aber kein Geld dafür.", ans: 0, exp: "Ohne Kaufkraft bleibt es ein reines Bedürfnis (kein Bedarf!)." },
+      { text: "Eine Kundin hat 800 € gespart und will ein konkretes Laptop-Modell kaufen, vergleicht aber noch Shops.", ans: 1, exp: "Kaufkraft + konkretes Produkt vorhanden, aber noch keine Kaufhandlung = Bedarf." },
+      { text: "Im Online-Shop gehen heute 45 bezahlte Bestellungen für Winterjacken ein.", ans: 2, exp: "Tatsächliche Kaufhandlungen mit Geldzufluss = Nachfrage." }
+    ]
+  }
+};
+
+// ============================================================================
+// 6. PROBE-KLAUSUR (AUFGABEN 1–10)
+// ============================================================================
+const EXAM_TASKS = [
+  {
+    num: "Aufgabe 1", pts: 3,
+    q: "Bestimmen Sie den Begriff „Wirtschaften“.",
+    model: "Zielorientiertes Entscheiden über die Verwendung knapper Mittel/Ressourcen nach dem ökonomischen/wirtschaftlichen Prinzip.",
+    rubric: [
+      { label: "zielorientiertes Entscheiden", match: ["zielorientiert", "entscheid"] },
+      { label: "knappe Mittel / Ressourcen", match: ["knapp", "ressourc", "mittel"] },
+      { label: "ökonomisches / wirtschaftliches Prinzip", match: ["ökonomisch", "oekonomisch", "wirtschaftlich"] }
+    ]
+  },
+  {
+    num: "Aufgabe 2", pts: 4,
+    q: "Erläutern Sie die Notwendigkeit des Wirtschaftens und nennen Sie 3 begrenzte Mittel.",
+    model: "Nahezu unbegrenzten Bedürfnissen/Wünschen stehen begrenzte Mittel gegenüber (begrenzte Mittel: Geld/liquide Mittel, Zeit/Arbeitszeit, natürliche Ressourcen).",
+    rubric: [
+      { label: "unbegrenzte Bedürfnisse/Wünsche", match: ["unbegrenzt", "bedürfnis", "wünsch"] },
+      { label: "begrenzte Mittel", match: ["begrenzt", "knapp"] },
+      { label: "Geld / liquide Mittel", match: ["geld", "liquid"] },
+      { label: "Zeit & natürliche Ressourcen", match: ["zeit", "ressourc", "rohstoff"] }
+    ]
+  },
+  {
+    num: "Aufgabe 3", pts: 4,
+    q: "Nennen Sie die drei Wirtschaftssubjekte (inkl. der Gebietskörperschaften beim Staat).",
+    model: "Staat (Gebietskörperschaften: Bund, Länder, Gemeinden), Unternehmen, Private Haushalte (Privatpersonen).",
+    rubric: [
+      { label: "Staat", match: ["staat"] },
+      { label: "Bund, Länder, Gemeinden", match: ["bund", "länder", "laender", "gemeind"] },
+      { label: "Unternehmen", match: ["unternehmen"] },
+      { label: "Private Haushalte", match: ["haushalt"] }
+    ]
+  },
+  {
+    num: "Aufgabe 4", pts: 6,
+    q: "Nennen und erläutern Sie die grundlegenden Ziele aller drei Wirtschaftssubjekte (bei Unternehmen inkl. Ober- und Zwischenzielen).",
+    model: "Unternehmen: Oberziel Gewinnmaximierung; Zwischenziele: Produkt-/Dienstleistungsqualität → Kundenzufriedenheit → guter Ruf (immaterieller Firmenwert) → Neukundengewinnung; guter Kundenstamm; Umsatzsteigerung (Preis/Menge); Kostensenkung (Beschaffungsseite). Haushalte: Nutzenmaximierung. Staat: höchstmöglicher Wohlstand der Bevölkerung bei Kostendeckung durch Steuereinnahmen.",
+    rubric: [
+      { label: "Unternehmen: Gewinnmaximierung", match: ["gewinnmaxim"] },
+      { label: "Qualität / Zufriedenheit / Ruf / Neukunden", match: ["qualität", "zufriedenheit", "ruf", "neukund", "kundenstamm"] },
+      { label: "Umsatzsteigerung", match: ["umsatz"] },
+      { label: "Kostensenkung / -minimierung", match: ["kosten"] },
+      { label: "Haushalte: Nutzenmaximierung", match: ["nutzenmaxim", "nutzen"] },
+      { label: "Staat: Wohlstand / Steuern", match: ["wohlstand", "gemeinwohl", "steuer", "infrastruktur"] }
+    ]
+  },
+  {
+    num: "Aufgabe 5", pts: 5,
+    q: "Erklären Sie das Minimal- und das Maximalprinzip (mit je einem kurzen Beispiel) und nennen Sie sinnvolle Verhaltensweisen.",
+    model: "Minimalprinzip: festes Ziel mit möglichst geringem Mitteleinsatz erreichen (z. B. feste Stückzahl möglichst günstig produzieren). Maximalprinzip: mit festen Mitteln möglichst großes Ergebnis erzielen (z. B. mit festem Werbebudget maximalen Umsatz). Sinnvolles Verhalten: Preisvergleiche, Budgetplanung, Angebotsvergleiche, Ausschreibungen.",
+    rubric: [
+      { label: "Minimalprinzip: festes Ziel", match: ["minimal", "fest", "ziel"] },
+      { label: "Minimalprinzip: geringer Mitteleinsatz", match: ["gering", "sparsam", "wenig", "mittel", "kosten"] },
+      { label: "Maximalprinzip: feste Mittel", match: ["maximal", "gegeben", "budget"] },
+      { label: "Maximalprinzip: größtes Ergebnis", match: ["groß", "gross", "ergebnis", "höchst", "umsatz", "nutzen"] },
+      { label: "Sinnvolle Verhaltensweisen", match: ["vergleich", "ausschreib", "plan", "effizien", "sparen"] }
+    ]
+  },
+  {
+    num: "Aufgabe 6", pts: 4,
+    q: "Stellen Sie BWL und VWL vergleichend gegenüber.",
+    model: "BWL: einzelwirtschaftliche Sicht eines Betriebs (Beschaffung, Produktion, Absatz, Kosten, Gewinn). VWL: gesamtwirtschaftliche Sicht aller Wirtschaftssektoren (Wirtschaftskreislauf, BIP, Inflation, Arbeitslosigkeit, Konjunktur).",
+    rubric: [
+      { label: "BWL: einzelwirtschaftlich / Betrieb", match: ["einzelwirtschaft", "betrieb", "unternehmen", "frosch"] },
+      { label: "BWL-Themen", match: ["kosten", "gewinn", "absatz", "produktion", "marketing", "beschaffung"] },
+      { label: "VWL: gesamtwirtschaftlich", match: ["gesamtwirtschaft", "volkswirtschaft", "vogel", "sektor"] },
+      { label: "VWL-Themen", match: ["kreislauf", "bip", "inflation", "arbeitslos", "konjunktur", "wachstum"] }
+    ]
+  },
+  {
+    num: "Aufgabe 7", pts: 6,
+    q: "Klären Sie Bedürfnis, Bedarf, Nachfrage und nennen Sie die drei Formeln (Umsatzerlöse, Kosten, Gewinn).",
+    model: "Bedürfnis = Wunsch/Mangelempfinden. Bedarf = mit Kaufkraft ausgestattete Summe der Bedürfnisse nach einem konkreten Produkt (Kundenorientierung: Planung auf Absatzmarkt). Nachfrage = Teil des Bedarfs, der durch tatsächliche Kaufhandlungen zu Umsatzerlösen (Zufluss liquider Mittel) führt. Formeln: Umsatzerlöse = Absatzmenge × Absatzmarktpreise; Kosten = Beschaffungsmengen × Beschaffungsmarktpreise; Gewinn = Umsatzerlöse − Kosten.",
+    rubric: [
+      { label: "Bedürfnis: Wunsch/Mangelempfinden", match: ["wunsch", "mangelempfind", "mangel"] },
+      { label: "Bedarf: Kaufkraft + konkretes Produkt", match: ["kaufkraft"] },
+      { label: "Nachfrage: tatsächliche Kaufhandlung / Umsatz", match: ["kaufhandlung", "tatsächlich", "liquid", "umsatz"] },
+      { label: "Formel Umsatzerlöse", match: ["absatzmenge", "absatzmarktpreis"] },
+      { label: "Formel Kosten", match: ["beschaffungsmenge", "beschaffungsmarktpreis", "beschaffung"] },
+      { label: "Formel Gewinn", match: ["gewinn", "umsatzerlös", "kosten"] }
+    ]
+  },
+  {
+    num: "Aufgabe 8", pts: 7,
+    q: "Nennen Sie die 5 Stufen der Maslow-Pyramide, erläutern Sie die Grundannahme und nehmen Sie eine kritische Würdigung (+ / − / Relativierung) vor.",
+    model: "5 Stufen (unten→oben): 1. Physiologische, 2. Sicherheit, 3. Sozial, 4. Wertschätzung/Anerkennung, 5. Selbstverwirklichung. Erläuterung: Höhere Stufe erst, wenn darunterliegende erfüllt. + Positiv: Klarheit über Kundenbedürfnisstruktur für Vermarktung (Bsp. Brot: sicherer, planbarer Absatzmarkt, kein Wachstumsmarkt). − Negativ: Zuordnung individuell/nicht eindeutig; nicht so starr (Künstler-Beispiel); eher westliche Welt. Relativierung: Modell = vereinfachende Darstellung der komplexen Realität zur Erkenntnisgewinnung.",
+    rubric: [
+      { label: "Physiologisch & Sicherheit", match: ["physiolog", "grundbedürfnis", "sicherheit"] },
+      { label: "Sozial, Wertschätzung, Selbstverwirklichung", match: ["sozial", "wertschätz", "anerkennung", "selbstverwirklich"] },
+      { label: "Grundannahme (höhere erst nach unterer)", match: ["darunter", "erfüllt", "höher", "erst"] },
+      { label: "Positiv (Vermarktung / Brot-Bsp.)", match: ["vermarktung", "bedürfnisstruktur", "brot", "absatzmarkt"] },
+      { label: "Negativ: Zuordnung / nicht starr (Künstler)", match: ["individuell", "eindeutig", "starr", "künstler"] },
+      { label: "Negativ: westliche Welt", match: ["westlich", "global"] },
+      { label: "Relativierung: Modell (vereinfachend)", match: ["modell", "vereinfach", "realität", "erkenntnis"] }
+    ]
+  },
+  {
+    num: "Aufgabe 9", pts: 4,
+    q: "Erklären Sie, weshalb Wirtschaftssubjekte zu den Sektoren Haushalte, Unternehmen und Staat aggregiert werden können.",
+    model: "Wegen ihrer Gemeinsamkeiten: Haushalte konsumieren & sparen (Nutzenmaximierung, Gossen'sche Gesetze); Unternehmen investieren, finanzieren & produzieren (Gewinnmaximierung); Staat stellt Infrastruktur bereit (Wohlstand der Bevölkerung, Kostendeckung durch Steuereinnahmen).",
+    rubric: [
+      { label: "Gemeinsamkeiten / gleichartige Funktionen", match: ["gemeinsam", "gleich", "funktion", "ziel"] },
+      { label: "Haushalte: konsumieren & sparen / Nutzenmaximierung", match: ["konsumier", "sparen", "nutzenmaxim"] },
+      { label: "Unternehmen: investieren, finanzieren, produzieren / Gewinn", match: ["investier", "finanzier", "produzier", "gewinnmaxim"] },
+      { label: "Staat: Infrastruktur / Wohlstand / Steuern", match: ["infrastruktur", "wohlstand", "steuer"] }
+    ]
+  },
+  {
+    num: "Aufgabe 10", pts: 7,
+    q: "Erläutern Sie die entgegenfließenden Güter- und Geldströme zwischen a) Unternehmen & Haushalten, b) Unternehmen & Staat, c) Haushalten & Staat.",
+    model: "a) U→H Fertigerzeugnisse/Waren (Konsumgüter) ↔ H→U Konsumausgaben (Umsatzerlöse); H→U Arbeitskraft (Produktionsfaktor Arbeit) ↔ U→H Lohnaufwand (Haushaltseinkommen). b) Staat→U Infrastruktur ↔ U→Staat Steuern; U→Staat Güter/Aufträge ↔ Staat→U Staatsausgaben/Umsatz; einseitig: Subventionen. c) Staat→H Infrastruktur ↔ H→Staat Steuern; H→Staat Arbeitskraft ↔ Staat→H Gehälter/Einkommen; einseitig: Transferzahlungen.",
+    rubric: [
+      { label: "10a: Konsumgüter ↔ Konsumausgaben / Umsatzerlöse", match: ["konsumgüter", "fertigerzeugnis", "waren", "konsumausgab", "umsatzerlös"] },
+      { label: "10a: Arbeitskraft ↔ Lohnaufwand / Haushaltseinkommen", match: ["arbeitskraft", "arbeit", "lohnaufwand", "haushaltseinkommen", "lohn"] },
+      { label: "10b: Infrastruktur ↔ Steuern (U ↔ Staat)", match: ["infrastruktur", "steuer"] },
+      { label: "10b: Staatsaufträge / Güter ↔ Staatsausgaben", match: ["auftrag", "aufträg", "staatsausgab", "liefer"] },
+      { label: "10b: Subventionen", match: ["subvention"] },
+      { label: "10c: Arbeitskraft ↔ Gehälter (öff. Dienst)", match: ["gehalt", "gehälter", "öffentlichen dienst", "beamte", "lehrer", "polizei"] },
+      { label: "10c: Transferzahlungen (Kindergeld, BAföG...)", match: ["transfer", "kindergeld", "bafög", "bürgergeld"] }
+    ]
+  }
+];
+
+// ============================================================================
+// 7. STATE & STORAGE
+// ============================================================================
+const STORAGE_KEY = "wl_klausur_sprint_v1";
+let state = {
+  theme: "light",
+  cardRatings: {}, // id -> 1|2|3
+  quizCorrect: {}, // id -> true|false
+  visualDone: { maslow: false, kreislauf: false, sortHits: 0 }
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) state = Object.assign(state, JSON.parse(raw));
+  } catch (e) {}
+  applyTheme();
+  updateOverallProgress();
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  updateOverallProgress();
+}
+function resetAllProgress() {
+  if (!confirm("Möchtest du deinen gesamten Lernfortschritt zurücksetzen?")) return;
+  state.cardRatings = {};
+  state.quizCorrect = {};
+  state.visualDone = { maslow: false, kreislauf: false, sortHits: 0 };
+  saveState();
+  initFlashcards();
+  initQuiz();
+  renderMaslowChallenge();
+  renderKreislaufChallenge();
+}
+
+function toggleTheme() {
+  state.theme = state.theme === "dark" ? "light" : "dark";
+  applyTheme();
+  saveState();
+}
+function applyTheme() {
+  document.documentElement.setAttribute("data-theme", state.theme);
+  document.getElementById("themeBtn").textContent = state.theme === "dark" ? "☀️" : "🌙";
+}
+
+function updateOverallProgress() {
+  const masteredCards = Object.values(state.cardRatings).filter(v => v === 3).length;
+  const correctQuiz = Object.values(state.quizCorrect).filter(v => v === true).length;
+  const visualBonus = (state.visualDone.maslow ? 5 : 0) + (state.visualDone.kreislauf ? 5 : 0);
+  const totalMax = FLASHCARDS.length + QUIZ_QUESTIONS.length + 10;
+  const pct = Math.min(100, Math.round(((masteredCards + correctQuiz + visualBonus) / totalMax) * 100));
+
+  document.getElementById("masteryBar").style.width = pct + "%";
+  document.getElementById("masteryLabel").textContent = `Lernfortschritt: ${pct}%`;
+  document.getElementById("cardsPill").textContent = `${masteredCards}/${FLASHCARDS.length}`;
+  document.getElementById("quizPill").textContent = `${correctQuiz}/${QUIZ_QUESTIONS.length}`;
+}
+
+// ============================================================================
+// 8. 30-MINUTE SPRINT TIMER
+// ============================================================================
+let timerSec = 30 * 60;
+let timerInterval = null;
+
+function updateTimerUI() {
+  const m = Math.floor(timerSec / 60);
+  const s = timerSec % 60;
+  document.getElementById("timerDisplay").textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  const elapsed = 30 - m;
+  let phase = "Bereit zum Start";
+  if (timerInterval) {
+    if (elapsed < 5) phase = "Phase 1: Lücken schließen";
+    else if (elapsed < 15) phase = "Phase 2: Eintippen!";
+    else if (elapsed < 22) phase = "Phase 3: Quiz & Zuordnung";
+    else if (timerSec > 0) phase = "Phase 4: Probe-Klausur";
+    else phase = "🎉 30 Min geschafft!";
+  }
+  document.getElementById("timerPhase").textContent = phase;
+}
+function toggleTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    document.getElementById("timerToggleBtn").textContent = "Weiter";
+  } else {
+    if (timerSec <= 0) timerSec = 30 * 60;
+    timerInterval = setInterval(() => {
+      if (timerSec > 0) { timerSec--; updateTimerUI(); }
+      else { clearInterval(timerInterval); timerInterval = null; document.getElementById("timerToggleBtn").textContent = "Fertig"; updateTimerUI(); }
+    }, 1000);
+    document.getElementById("timerToggleBtn").textContent = "Pause";
+  }
+  updateTimerUI();
+}
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerSec = 30 * 60;
+  document.getElementById("timerToggleBtn").textContent = "Start";
+  updateTimerUI();
+}
+
+// ============================================================================
+// 9. TABS
+// ============================================================================
+function switchTab(tab) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("view-" + tab).classList.add("active");
+  document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ============================================================================
+// 10. TAB 1: SPICKZETTEL & ABDECK-MODUS
+// ============================================================================
+let guideFilter = "all";
+let blurMode = false;
+
+function renderGuide() {
+  const container = document.getElementById("guideContainer");
+  const list = guideFilter === "gap" ? GUIDE_DATA.filter(g => g.hasGap) : GUIDE_DATA;
+  container.innerHTML = list.map(g => `
+    <article class="card ${blurMode ? "blur-mode" : ""}">
+      <div class="card-header">
+        <h2>${g.title}</h2>
+        ${g.hasGap
+          ? '<span class="badge badge-gap">⚠️ Mitschrift + Lücke ergänzt</span>'
+          : '<span class="badge badge-note">✓ Aus Mitschrift</span>'}
+      </div>
+      ${g.html}
+    </article>
+  `).join("");
+
+  container.querySelectorAll(".kw").forEach(el => {
+    el.addEventListener("click", () => {
+      if (blurMode) el.classList.toggle("revealed");
+    });
+  });
+}
+
+function filterGuide(mode, btn) {
+  guideFilter = mode;
+  btn.parentElement.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  renderGuide();
+}
+
+function toggleBlurMode(forceOn) {
+  blurMode = typeof forceOn === "boolean" ? forceOn : !blurMode;
+  const btn = document.getElementById("blurToggleBtn");
+  btn.textContent = blurMode ? "🙈 Abdeck-Modus: AN (Klick deckt auf)" : "🙈 Abdeck-Modus: AUS";
+  renderGuide();
+}
+function revealAllBlur() {
+  document.querySelectorAll("#guideContainer .kw").forEach(el => el.classList.add("revealed"));
+}
+function showSvgDetail(key) {
+  const box = document.getElementById("svgDetailBox");
+  if (box) box.innerHTML = SVG_DETAILS[key];
+}
+
+// ============================================================================
+// 11. TAB 2: KARTEIKARTEN (EINTIPPEN) & LÜCKENTEXT
+// ============================================================================
+let cardSubmode = "free";
+let cardFilter = "all";
+let cardQueue = [];
+let currentCard = null;
+let clozeIdx = 0;
+
+function normalize(str) {
+  return (str || "").toLowerCase()
+    .replace(/ä/g, "ä").replace(/ö/g, "ö").replace(/ü/g, "ü")
+    .replace(/\s+/g, " ").trim();
+}
+
+function matchKeywords(input, keywords) {
+  const norm = normalize(input);
+  const ascii = norm.replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss");
+  return keywords.map(kw => {
+    const hit = kw.match.some(m => {
+      const mNorm = normalize(m);
+      return norm.includes(mNorm) || ascii.includes(mNorm);
+    });
+    return { label: kw.label, hit };
+  });
+}
+
+function setCardSubmode(mode, btn) {
+  cardSubmode = mode;
+  btn.parentElement.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("freeCardArea").style.display = mode === "free" ? "block" : "none";
+  document.getElementById("clozeArea").style.display = mode === "cloze" ? "block" : "none";
+  document.getElementById("cardFilterPills").style.display = mode === "free" ? "flex" : "none";
+  if (mode === "cloze") renderClozeBlock();
+}
+
+function setCardFilter(f, btn) {
+  cardFilter = f;
+  btn.parentElement.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  initFlashcards();
+}
+
+function initFlashcards() {
+  let list = FLASHCARDS.slice();
+  if (cardFilter === "gap") list = list.filter(c => c.gap);
+  if (cardFilter === "due") list = list.filter(c => state.cardRatings[c.id] !== 3);
+  if (list.length === 0) list = FLASHCARDS.slice();
+  // Put unmastered first
+  list.sort((a, b) => (state.cardRatings[a.id] || 0) - (state.cardRatings[b.id] || 0));
+  cardQueue = list;
+  loadNextCard();
+}
+
+function loadNextCard() {
+  if (cardQueue.length === 0) {
+    initFlashcards();
+    return;
+  }
+  currentCard = cardQueue[0];
+  document.getElementById("fcTaskBadge").textContent = `Aufgabe ${currentCard.task}`;
+  document.getElementById("fcGapBadge").style.display = currentCard.gap ? "inline-flex" : "none";
+  const mastered = Object.values(state.cardRatings).filter(v => v === 3).length;
+  document.getElementById("fcCounter").textContent = `Offen im Stapel: ${cardQueue.length} · Gemeistert: ${mastered}/${FLASHCARDS.length}`;
+  document.getElementById("fcQuestion").textContent = currentCard.q;
+  const hintEl = document.getElementById("fcHint");
+  hintEl.textContent = "💡 Hinweis: " + currentCard.hint;
+  hintEl.style.display = "none";
+
+  const inp = document.getElementById("fcInput");
+  inp.value = "";
+  inp.disabled = false;
+  document.getElementById("fcResult").style.display = "none";
+  document.getElementById("fcCheckBtn").style.display = "inline-flex";
+  inp.focus();
+}
+
+function toggleCardHint() {
+  const el = document.getElementById("fcHint");
+  el.style.display = el.style.display === "none" ? "block" : "none";
+}
+
+function checkFreeCard() {
+  const val = document.getElementById("fcInput").value;
+  const results = matchKeywords(val, currentCard.keywords);
+  const hits = results.filter(r => r.hit).length;
+  const badge = document.getElementById("fcScoreBadge");
+  badge.textContent = `${hits} / ${results.length} Schlüsselbegriffe getroffen`;
+  badge.className = "badge " + (hits === results.length ? "badge-ok" : hits > 0 ? "badge-gap" : "badge-danger");
+
+  document.getElementById("fcKwChips").innerHTML = results.map(r =>
+    `<span class="chip ${r.hit ? "chip-hit" : "chip-miss"}">${r.hit ? "✓" : "✗"} ${r.label}</span>`
+  ).join("");
+  document.getElementById("fcModelAnswer").textContent = currentCard.model;
+  document.getElementById("fcResult").style.display = "block";
+  document.getElementById("fcCheckBtn").style.display = "none";
+  document.getElementById("fcInput").blur();
+}
+
+function rateCard(score) {
+  state.cardRatings[currentCard.id] = score;
+  saveState();
+  const card = cardQueue.shift();
+  if (score === 1) {
+    // Reinsert 3 slots ahead (Spaced Repetition!)
+    const pos = Math.min(3, cardQueue.length);
+    cardQueue.splice(pos, 0, card);
+  } else if (score === 2) {
+    const pos = Math.min(7, cardQueue.length);
+    cardQueue.splice(pos, 0, card);
+  }
+  loadNextCard();
+}
+
+function skipFreeCard() {
+  const card = cardQueue.shift();
+  cardQueue.push(card);
+  loadNextCard();
+}
+
+// Cloze typing drill
+function renderClozeBlock() {
+  const block = CLOZE_BLOCKS[clozeIdx];
+  document.getElementById("clozeProgress").textContent = `Block ${clozeIdx + 1} / ${CLOZE_BLOCKS.length}`;
+  let html = `<h3>${block.title}</h3><ol style="padding-left:20px;">`;
+  block.items.forEach((it, iIdx) => {
+    let line = it.text.replace(/\{(\d+)\}/g, (_, k) =>
+      `<input type="text" class="cloze-inline" data-item="${iIdx}" data-slot="${k}" placeholder="eintippen..." autocomplete="off">`
+    );
+    html += `<li style="margin-bottom:10px;">${line}</li>`;
+  });
+  html += "</ol>";
+  document.getElementById("clozeBody").innerHTML = html;
+  document.getElementById("clozeFeedback").innerHTML = "";
+}
+
+function checkCloze() {
+  const block = CLOZE_BLOCKS[clozeIdx];
+  const inputs = document.querySelectorAll("#clozeBody .cloze-inline");
+  let ok = 0;
+  inputs.forEach(inp => {
+    const item = block.items[+inp.dataset.item];
+    const validList = item.answers[+inp.dataset.slot];
+    const val = normalize(inp.value);
+    const isOk = validList.some(v => normalize(v) === val || (val.length >= 4 && normalize(v).startsWith(val)));
+    inp.classList.remove("ok", "bad");
+    inp.classList.add(isOk ? "ok" : "bad");
+    if (isOk) ok++;
+  });
+  document.getElementById("clozeFeedback").innerHTML = ok === inputs.length
+    ? `<div class="feedback-box ok">🎉 Perfekt! Alle ${inputs.length} Fachbegriffe sitzen!</div>`
+    : `<div class="feedback-box bad">${ok} von ${inputs.length} richtig. Korrigiere die roten Lücken oder klicke auf „Lösung eintragen“.</div>`;
+}
+
+function solveCloze() {
+  const block = CLOZE_BLOCKS[clozeIdx];
+  document.querySelectorAll("#clozeBody .cloze-inline").forEach(inp => {
+    const item = block.items[+inp.dataset.item];
+    inp.value = item.answers[+inp.dataset.slot][0];
+    inp.classList.remove("bad");
+    inp.classList.add("ok");
+  });
+}
+function nextClozeBlock() {
+  clozeIdx = (clozeIdx + 1) % CLOZE_BLOCKS.length;
+  renderClozeBlock();
+}
+
+// ============================================================================
+// 12. TAB 3: QUIZ & KLAUSURFALLEN
+// ============================================================================
+let quizDeck = [];
+let quizIdx = 0;
+let quizStreak = 0;
+let quizAnswered = false;
+let quizFilterMode = "all";
+
+function initQuiz() {
+  quizDeck = quizFilterMode === "wrong"
+    ? QUIZ_QUESTIONS.filter(q => state.quizCorrect[q.id] === false)
+    : QUIZ_QUESTIONS.slice();
+  if (quizDeck.length === 0) {
+    quizFilterMode = "all";
+    quizDeck = QUIZ_QUESTIONS.slice();
+  }
+  quizIdx = 0;
+  renderQuizQuestion();
+  updateWrongQuizBtn();
+}
+
+function shuffleQuiz() {
+  for (let i = quizDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [quizDeck[i], quizDeck[j]] = [quizDeck[j], quizDeck[i]];
+  }
+  quizIdx = 0;
+  renderQuizQuestion();
+}
+
+function setQuizMode(mode, btn) {
+  quizFilterMode = mode;
+  btn.parentElement.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  initQuiz();
+}
+
+function updateWrongQuizBtn() {
+  const wrongCnt = QUIZ_QUESTIONS.filter(q => state.quizCorrect[q.id] === false).length;
+  document.getElementById("wrongQuizBtn").textContent = `🔁 Falsch beantwortete (${wrongCnt})`;
+}
+
+function renderQuizQuestion() {
+  const q = quizDeck[quizIdx];
+  quizAnswered = false;
+  document.getElementById("qTaskBadge").textContent = `Aufgabe ${q.task}`;
+  document.getElementById("qTypeBadge").textContent = q.type;
+  const rightCount = Object.values(state.quizCorrect).filter(Boolean).length;
+  document.getElementById("qStats").textContent = `Frage ${quizIdx + 1} / ${quizDeck.length} · Richtig: ${rightCount}/${QUIZ_QUESTIONS.length} · Serie: 🔥 ${quizStreak}`;
+  document.getElementById("qPrompt").textContent = q.prompt;
+  const letters = ["A", "B", "C", "D"];
+  document.getElementById("qOptions").innerHTML = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="answerQuiz(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join("");
+  document.getElementById("qFeedback").style.display = "none";
+  document.getElementById("qNextBtn").style.display = "none";
+}
+
+function answerQuiz(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizDeck[quizIdx];
+  const btns = document.querySelectorAll("#qOptions .quiz-opt");
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add("correct");
+    if (i === idx && idx !== q.ans) b.classList.add("wrong");
+  });
+  const ok = idx === q.ans;
+  state.quizCorrect[q.id] = ok;
+  quizStreak = ok ? quizStreak + 1 : 0;
+  saveState();
+  updateWrongQuizBtn();
+
+  const fb = document.getElementById("qFeedback");
+  fb.className = "feedback-box " + (ok ? "ok" : "bad");
+  fb.innerHTML = `<strong>${ok ? "✅ Richtig!" : "❌ Leider falsch."}</strong> ${q.exp}`;
+  fb.style.display = "block";
+  document.getElementById("qNextBtn").style.display = "inline-flex";
+}
+
+function nextQuizQuestion() {
+  quizIdx = (quizIdx + 1) % quizDeck.length;
+  renderQuizQuestion();
+}
+
+// ============================================================================
+// 13. TAB 4: VISUAL CHALLENGES (SORT, MASLOW, KREISLAUF)
+// ============================================================================
+let currentSortDeck = "prinzip";
+let sortIdx = 0;
+let sortScore = 0;
+let sortStreak = 0;
+
+function setSortDeck(name, btn) {
+  currentSortDeck = name;
+  sortIdx = 0;
+  btn.parentElement.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  renderSortItem();
+}
+
+function renderSortItem() {
+  const deck = SORT_DECKS[currentSortDeck];
+  const item = deck.items[sortIdx];
+  document.getElementById("sortPrompt").textContent = item.text;
+  document.getElementById("sortButtons").innerHTML = deck.cats.map((c, idx) =>
+    `<button class="btn btn-secondary" onclick="answerSort(${idx})">${c}</button>`
+  ).join("");
+  document.getElementById("sortFeedback").innerHTML = "";
+}
+
+function answerSort(idx) {
+  const deck = SORT_DECKS[currentSortDeck];
+  const item = deck.items[sortIdx];
+  const ok = idx === item.ans;
+  if (ok) { sortScore++; sortStreak++; } else { sortStreak = 0; }
+  document.getElementById("sortScoreBadge").textContent = `Punkte: ${sortScore} · Serie: ${sortStreak}`;
+  document.getElementById("sortFeedback").innerHTML = `
+    <div class="feedback-box ${ok ? "ok" : "bad"}" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <span><strong>${ok ? "✅ Richtig!" : "❌ Falsch."}</strong> ${item.exp}</span>
+      <button class="btn btn-primary btn-sm" onclick="nextSortItem()">Weiter →</button>
+    </div>
+  `;
+}
+function nextSortItem() {
+  const deck = SORT_DECKS[currentSortDeck];
+  sortIdx = (sortIdx + 1) % deck.items.length;
+  renderSortItem();
+}
+
+// Maslow Pyramid Builder
+const MASLOW_LEVELS = [
+  { level: 5, width: "52%", bg: "rgba(139, 92, 246, 0.16)", name: "Selbstverwirklichungsbedürfnisse", ex: "Kreativität, eigene Talente entfalten" },
+  { level: 4, width: "64%", bg: "rgba(59, 130, 246, 0.16)", name: "Wertschätzungs- / Anerkennungsbedürfnisse", ex: "Beförderung, Lob, Prestige, Status" },
+  { level: 3, width: "76%", bg: "rgba(16, 185, 129, 0.16)", name: "Soziale Bedürfnisse", ex: "Freundschaft, Familie, Zugehörigkeit" },
+  { level: 2, width: "88%", bg: "rgba(245, 158, 11, 0.16)", name: "Sicherheitsbedürfnisse", ex: "Sicherer Arbeitsplatz, Versicherungen, Rechtssicherheit" },
+  { level: 1, width: "100%", bg: "rgba(239, 68, 68, 0.15)", name: "Physiologische Bedürfnisse (Grundbedürfnisse)", ex: "Essen (Brot), Trinken, Schlafen, Kleidung" }
+];
+
+function renderMaslowChallenge() {
+  const names = MASLOW_LEVELS.map(m => m.name).sort();
+  const exs = MASLOW_LEVELS.map(m => m.ex).sort();
+  const wrap = document.getElementById("maslowChallenge");
+  wrap.innerHTML = MASLOW_LEVELS.map(m => `
+    <div class="maslow-tier" id="m-tier-${m.level}" style="width:${m.width}; background:${m.bg};">
+      <div>Stufe ${m.level} ${m.level === 5 ? "(Spitze · Wachstumsbedürfnis)" : m.level === 1 ? "(Basis · Defizitbedürfnis)" : "(Defizitbedürfnis)"}</div>
+      <select class="maslow-select" id="m-name-${m.level}">
+        <option value="">— Stufenname wählen —</option>
+        ${names.map(n => `<option value="${n}">${n}</option>`).join("")}
+      </select>
+      <select class="maslow-select" id="m-ex-${m.level}">
+        <option value="">— Passendes Beispiel wählen —</option>
+        ${exs.map(e => `<option value="${e}">${e}</option>`).join("")}
+      </select>
+    </div>
+  `).join("");
+  document.getElementById("maslowFeedback").innerHTML = "";
+}
+
+function checkMaslow() {
+  let ok = 0;
+  MASLOW_LEVELS.forEach(m => {
+    const nOk = document.getElementById(`m-name-${m.level}`).value === m.name;
+    const eOk = document.getElementById(`m-ex-${m.level}`).value === m.ex;
+    const box = document.getElementById(`m-tier-${m.level}`);
+    box.style.borderColor = (nOk && eOk) ? "var(--success)" : "var(--danger)";
+    if (nOk && eOk) ok++;
+  });
+  if (ok === 5) {
+    state.visualDone.maslow = true;
+    saveState();
+  }
+  document.getElementById("maslowFeedback").innerHTML = ok === 5
+    ? `<div class="feedback-box ok">🎉 Perfekt! Alle 5 Maslow-Stufen und Beispiele sind 100% korrekt zugeordnet!</div>`
+    : `<div class="feedback-box bad">${ok} von 5 Stufen komplett richtig. Rot umrandete Stufen nochmal prüfen!</div>`;
+}
+function resetMaslow() { renderMaslowChallenge(); }
+
+// Kreislauf Matching Challenge (Aufgabe 10a, b, c)
+const KREISLAUF_ITEMS = [
+  { id: "k1", title: "10a · Güterstrom: Unternehmen → Haushalte", dir: "🔵", ans: "Fertigerzeugnisse & Waren (Konsumgüter)" },
+  { id: "k2", title: "10a · Geldstrom: Haushalte → Unternehmen", dir: "🟠", ans: "Konsumausgaben → Umsatzerlöse" },
+  { id: "k3", title: "10a · Güterstrom: Haushalte → Unternehmen", dir: "🔵", ans: "Arbeitskraft (Produktionsfaktor Arbeit)" },
+  { id: "k4", title: "10a · Geldstrom: Unternehmen → Haushalte", dir: "🟠", ans: "Lohnaufwand → Haushaltseinkommen" },
+  { id: "k5", title: "10b · Geldstrom: Unternehmen → Staat", dir: "🟠", ans: "Unternehmenssteuern (Steuereinnahmen)" },
+  { id: "k6", title: "10b · Einseitiger Geldstrom: Staat → Unternehmen", dir: "🟠", ans: "Subventionen (Finanzhilfen)" },
+  { id: "k7", title: "10c · Güterstrom: Staat → Haushalte (und Unternehmen)", dir: "🔵", ans: "Infrastruktur & öffentliche Leistungen" },
+  { id: "k8", title: "10c · Einseitiger Geldstrom: Staat → Haushalte", dir: "🟠", ans: "Transferzahlungen (Kindergeld, BAföG, Bürgergeld)" }
+];
+
+function renderKreislaufChallenge() {
+  const opts = KREISLAUF_ITEMS.map(k => k.ans).sort();
+  document.getElementById("kreislaufChallenge").innerHTML = KREISLAUF_ITEMS.map(k => `
+    <div class="flow-card" id="fc-${k.id}">
+      <div class="${k.dir === '🔵' ? 'flow-arrow-g' : 'flow-arrow-m'}" style="font-size:0.86rem;">${k.dir} ${k.title}</div>
+      <select class="maslow-select" id="sel-${k.id}">
+        <option value="">— Strom auswählen —</option>
+        ${opts.map(o => `<option value="${o}">${o}</option>`).join("")}
+      </select>
+    </div>
+  `).join("");
+  document.getElementById("kreislaufFeedback").innerHTML = "";
+}
+
+function checkKreislauf() {
+  let ok = 0;
+  KREISLAUF_ITEMS.forEach(k => {
+    const right = document.getElementById(`sel-${k.id}`).value === k.ans;
+    document.getElementById(`fc-${k.id}`).style.borderColor = right ? "var(--success)" : "var(--danger)";
+    if (right) ok++;
+  });
+  if (ok === KREISLAUF_ITEMS.length) {
+    state.visualDone.kreislauf = true;
+    saveState();
+  }
+  document.getElementById("kreislaufFeedback").innerHTML = ok === KREISLAUF_ITEMS.length
+    ? `<div class="feedback-box ok">🎉 Genial! Du beherrschst alle Güter- und Geldströme von Aufgabe 10a, 10b und 10c!</div>`
+    : `<div class="feedback-box bad">${ok} von ${KREISLAUF_ITEMS.length} Strömen richtig. Schau dir die rot markierten Boxen nochmal an!</div>`;
+}
+function solveKreislauf() {
+  KREISLAUF_ITEMS.forEach(k => {
+    document.getElementById(`sel-${k.id}`).value = k.ans;
+    document.getElementById(`fc-${k.id}`).style.borderColor = "var(--success)";
+  });
+}
+
+// ============================================================================
+// 14. TAB 5: PROBE-KLAUSUR (A1–A10)
+// ============================================================================
+function renderExam() {
+  document.getElementById("examContainer").innerHTML = EXAM_TASKS.map((t, i) => `
+    <div class="exam-task" id="exam-box-${i}">
+      <div class="exam-task-head">
+        <span>${t.num}: ${t.q}</span>
+        <span class="badge badge-note">${t.pts} Pkt.</span>
+      </div>
+      <textarea class="answer-input" id="exam-in-${i}" rows="3" placeholder="Deine Klausurantwort in Stichpunkten oder Sätzen..."></textarea>
+      <div id="exam-res-${i}" style="display:none; margin-top:10px;"></div>
+    </div>
+  `).join("");
+}
+
+function gradeExam() {
+  let totalGot = 0;
+  let totalMax = 0;
+  EXAM_TASKS.forEach((t, i) => {
+    totalMax += t.pts;
+    const val = document.getElementById(`exam-in-${i}`).value;
+    const checks = matchKeywords(val, t.rubric);
+    const hits = checks.filter(c => c.hit).length;
+    const ptsGot = Math.round((hits / t.rubric.length) * t.pts);
+    totalGot += ptsGot;
+
+    const resBox = document.getElementById(`exam-res-${i}`);
+    resBox.style.display = "block";
+    resBox.innerHTML = `
+      <div class="solution-box">
+        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;">
+          <strong>Auswertung (${hits}/${t.rubric.length} Kriterien):</strong>
+          <span class="badge ${ptsGot === t.pts ? 'badge-ok' : ptsGot >= t.pts/2 ? 'badge-gap' : 'badge-danger'}">ca. ${ptsGot} / ${t.pts} Punkte</span>
+        </div>
+        <div class="kw-chips">
+          ${checks.map(c => `<span class="chip ${c.hit ? 'chip-hit' : 'chip-miss'}">${c.hit ? '✓' : '✗'} ${c.label}</span>`).join("")}
+        </div>
+        <div class="muted"><strong>Musterlösung:</strong> ${t.model}</div>
+      </div>
+    `;
+  });
+
+  const pct = Math.round((totalGot / totalMax) * 100);
+  let note = "Noch ein bisschen üben! (Fokus auf rote Chips)";
+  if (pct >= 92) note = "Note ~ 1 (Sehr gut!) 🏆";
+  else if (pct >= 81) note = "Note ~ 2 (Gut!) 🎯";
+  else if (pct >= 67) note = "Note ~ 3 (Befriedigend) 👍";
+  else if (pct >= 50) note = "Note ~ 4 (Ausreichend) ⚡";
+
+  const banner = document.getElementById("examScoreBanner");
+  banner.style.display = "flex";
+  document.getElementById("examScoreText").textContent = `${totalGot} / ${totalMax} Punkte (${pct}%)`;
+  document.getElementById("examGradeText").textContent = note;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function clearExam() {
+  EXAM_TASKS.forEach((_, i) => {
+    document.getElementById(`exam-in-${i}`).value = "";
+    document.getElementById(`exam-res-${i}`).style.display = "none";
+  });
+  document.getElementById("examScoreBanner").style.display = "none";
+}
+
+// ============================================================================
+// 15. KEYBOARD SHORTCUTS (FÜR MAXIMALES TEMPO)
+// ============================================================================
+document.addEventListener("keydown", (e) => {
+  const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
+
+  // Flashcards shortcuts
+  if (activeTab === "cards" && cardSubmode === "free") {
+    if (e.ctrlKey && e.key === "Enter") {
+      e.preventDefault();
+      if (document.getElementById("fcResult").style.display === "none") checkFreeCard();
+    } else if (document.getElementById("fcResult").style.display === "block" && document.activeElement.tagName !== "TEXTAREA") {
+      if (e.key === "1") rateCard(1);
+      if (e.key === "2") rateCard(2);
+      if (e.key === "3") rateCard(3);
+    }
+  }
+
+  // Quiz shortcuts
+  if (activeTab === "quiz" && document.activeElement.tagName !== "TEXTAREA" && document.activeElement.tagName !== "INPUT") {
+    const key = e.key.toLowerCase();
+    if (!quizAnswered && ["a","b","c","d"].includes(key)) {
+      answerQuiz(["a","b","c","d"].indexOf(key));
+    } else if (quizAnswered && e.key === "Enter") {
+      nextQuizQuestion();
+    }
+  }
+});
+
+// ============================================================================
+// INIT
+// ============================================================================
+loadState();
+renderGuide();
+initFlashcards();
+initQuiz();
+renderSortItem();
+renderMaslowChallenge();
+renderKreislaufChallenge();
+renderExam();
+updateTimerUI();
+</script>
+</body>
+</html>
